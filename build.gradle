@@ -7,10 +7,15 @@ allprojects {
 	}
 	
 	project.group = 'org.cbng.gradle'
+	
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
 }
 
 subprojects {
 	project.version = project.rootProject.version
+	
+	
 	
 	sourceSets {  
     	integTest {
