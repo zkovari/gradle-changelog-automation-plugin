@@ -15,9 +15,21 @@ allprojects {
 subprojects {
 	project.version = project.rootProject.version
 	
+	apply plugin:'jacoco'
 	
+	jacoco {
+		toolVersion = "0.8.3"
+	}
 	
-	sourceSets {  
+	jacocoTestReport {
+		reports {
+			xml.enabled true
+			csv.enabled true
+			html.enabled true
+		}
+	}
+	
+	sourceSets {
     	integTest {
 	        java.srcDir file('src/integTest/java')
         	resources.srcDir file('src/integTest/resources')
@@ -25,21 +37,26 @@ subprojects {
         	compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath
             runtimeClasspath += output + compileClasspath
     	}
-    	
 	}
 
-	task integTest(type: Test) {  
+	task integTest(type: Test) {
 		description = 'Runs the integration tests.'
     	group = 'verification'
     	
 	    testClassesDirs = sourceSets.integTest.output.classesDirs
 	    classpath = sourceSets.integTest.runtimeClasspath
 	    mustRunAfter tasks.test
+		
+		jacoco {
+			enabled=true
+			destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+			classDumpDir = file("$buildDir/jacoco/classpathdumps")
+		}
 	}
 	
 	check.dependsOn integTest
 	
-	 eclipse {
+	eclipse {
         classpath {
             plusConfigurations += [
                 configurations.integTestCompile,
@@ -48,6 +65,13 @@ subprojects {
         }
     }
 	
+	test {
+		jacoco {
+			destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+			classDumpDir = file("$buildDir/jacoco/classpathdumps")
+		}
+	}
+
 }
 
 
