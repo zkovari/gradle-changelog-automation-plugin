@@ -1,0 +1,6 @@
+
+dependencies {
+	implementation gradleApi()
+
+	integTestCompile 'junit:junit:4.12'
+}
