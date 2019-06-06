@@ -1,0 +1,1 @@
+# gradle-changelog-automation-plugin
