@@ -1,0 +1,21 @@
+plugins {
+	id 'java-gradle-plugin'
+}
+
+dependencies {
+	testCompile 'junit:junit:4.12'
+}
+
+gradlePlugin {
+	plugins {
+		changelog {
+			id = 'org.zkovari.changelog'
+			implementationClass = 'org.zkovari.changelog.gradle.api.plugins.ChangelogAutomationPlugin'
+		}
+	}
+}
+dependencies {
+	implementation gradleApi()
+
+	integTestCompile 'junit:junit:4.12'
+}

@@ -1,6 +1,6 @@
 rootProject.name = 'gradle-changelog-automation'
 
-include 'changelog-automation-plugin'
+include 'changelog-automation-gradle-plugin'
 include 'changelog-automation-core'
 include 'changelog-automation-bin'
 
@@ -9,5 +9,6 @@ rootProject.children.each {project ->
     project.projectDir = new File(settingsDir, "subprojects/${project.name}")
     project.buildFileName = "${project.name}.gradle"
     assert project.projectDir.isDirectory() : "Invalid subproject dir: ${project.projectDir}"
+	assert project.buildFile.exists() : "Cannot find build file '${project.buildFile.name}' in subproject directory: ${project.projectDir}"
     assert project.buildFile.isFile() : "Invalid build file: ${project.buildFile}"
 }

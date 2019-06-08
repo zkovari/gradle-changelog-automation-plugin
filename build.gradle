@@ -6,7 +6,7 @@ allprojects {
 		mavenCentral()
 	}
 	
-	project.group = 'org.cbng.gradle'
+	project.group = 'org.zkovari.changelog'
 	
 	sourceCompatibility = 1.8
 	targetCompatibility = 1.8
@@ -91,15 +91,16 @@ subprojects {
     }
 	
 	test {
+		testLogging {
+			events "failed"
+			exceptionFormat "full"
+		}
+		
 		jacoco {
 			destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
 			classDumpDir = file("$buildDir/jacoco/classpathdumps")
 		}
+		
 	}
 
 }
-
-
-
-
-
