@@ -1,4 +1,4 @@
-package org.zkovari.gradle.changelog.api;
+package org.zkovari.gradle.changelog.api.plugins;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;

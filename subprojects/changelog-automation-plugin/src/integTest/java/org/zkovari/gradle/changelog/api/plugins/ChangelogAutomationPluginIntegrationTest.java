@@ -1,4 +1,4 @@
-package org.zkovari.gradle.changelog.api;
+package org.zkovari.gradle.changelog.api.plugins;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -9,7 +9,7 @@ import org.gradle.testfixtures.ProjectBuilder;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Test;
-import org.zkovari.gradle.changelog.api.ChangelogAutomationPlugin;
+import org.zkovari.gradle.changelog.api.plugins.ChangelogAutomationPlugin;
 import org.zkovari.gradle.changelog.api.tasks.ProcessChangelogEntries;
 
 public class ChangelogAutomationPluginIntegrationTest {

@@ -37,11 +37,19 @@ subprojects {
         	compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath
             runtimeClasspath += output + compileClasspath
     	}
+		
+		functTest {
+			java.srcDir file('src/functTest/java')
+			resources.srcDir file('src/functTest/resources')
+			
+			compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath
+			runtimeClasspath += output + compileClasspath
+		}
 	}
 
 	task integTest(type: Test) {
+		group = 'verification'
 		description = 'Runs the integration tests.'
-    	group = 'verification'
     	
 	    testClassesDirs = sourceSets.integTest.output.classesDirs
 	    classpath = sourceSets.integTest.runtimeClasspath
@@ -54,12 +62,29 @@ subprojects {
 		}
 	}
 	
+	task functTest(type: Test) {
+		group = 'Verification'
+		description = 'Runs the functional tests.'
+		
+		testClassesDirs = sourceSets.functTest.output.classesDirs
+		classpath = sourceSets.functTest.runtimeClasspath
+		mustRunAfter tasks.test
+		
+		jacoco {
+			enabled=true
+			destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+			classDumpDir = file("$buildDir/jacoco/classpathdumps")
+		}
+	}
+	
 	check.dependsOn integTest
+	check.dependsOn functTest
 	
 	eclipse {
         classpath {
             plusConfigurations += [
                 configurations.integTestCompile,
+				configurations.functTestCompile,
             ]
 
         }
