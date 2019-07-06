@@ -1,106 +1,131 @@
+buildscript {
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+
+    dependencies {
+        classpath 'com.adarshr:gradle-test-logger-plugin:1.7.0'
+    }
+}
+
 allprojects {
-	apply plugin:'java-library'
-	apply plugin:'eclipse'
-	
-	repositories {
-		mavenCentral()
-	}
-	
-	project.group = 'org.zkovari.changelog'
-	
-	sourceCompatibility = 1.8
-	targetCompatibility = 1.8
+    apply plugin: 'eclipse'
+    apply plugin: 'jacoco'
+
+    repositories {
+        mavenCentral()
+    }
+
+    project.group = 'org.zkovari.changelog'
 }
 
 subprojects {
-	project.version = project.rootProject.version
-	
-	apply plugin:'jacoco'
-	
-	jacoco {
-		toolVersion = "0.8.3"
-	}
-	
-	jacocoTestReport {
-		reports {
-			xml.enabled true
-			csv.enabled true
-			html.enabled true
-		}
-	}
-	
-	sourceSets {
-    	integTest {
-	        java.srcDir file('src/integTest/java')
-        	resources.srcDir file('src/integTest/resources')
-        	
-        	compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath
+    project.version = project.rootProject.version
+    apply plugin: 'java-library'
+    apply plugin: 'com.adarshr.test-logger'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    sourceSets {
+        integTest {
+            java.srcDir file('src/integTest/java')
+            resources.srcDir file('src/integTest/resources')
+
+            compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath
             runtimeClasspath += output + compileClasspath
-    	}
-		
-		functTest {
-			java.srcDir file('src/functTest/java')
-			resources.srcDir file('src/functTest/resources')
-			
-			compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath
-			runtimeClasspath += output + compileClasspath
-		}
-	}
+        }
 
-	task integTest(type: Test) {
-		group = 'verification'
-		description = 'Runs the integration tests.'
-    	
-	    testClassesDirs = sourceSets.integTest.output.classesDirs
-	    classpath = sourceSets.integTest.runtimeClasspath
-	    mustRunAfter tasks.test
-		
-		jacoco {
-			enabled=true
-			destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-			classDumpDir = file("$buildDir/jacoco/classpathdumps")
-		}
-	}
-	
-	task functTest(type: Test) {
-		group = 'Verification'
-		description = 'Runs the functional tests.'
-		
-		testClassesDirs = sourceSets.functTest.output.classesDirs
-		classpath = sourceSets.functTest.runtimeClasspath
-		mustRunAfter tasks.test
-		
-		jacoco {
-			enabled=true
-			destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-			classDumpDir = file("$buildDir/jacoco/classpathdumps")
-		}
-	}
-	
-	check.dependsOn integTest
-	check.dependsOn functTest
-	
-	eclipse {
-        classpath {
-            plusConfigurations += [
-                configurations.integTestCompile,
-				configurations.functTestCompile,
-            ]
+        functTest {
+            java.srcDir file('src/functTest/java')
+            resources.srcDir file('src/functTest/resources')
 
+            compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntimeClasspath
+            runtimeClasspath += output + compileClasspath
         }
     }
-	
-	test {
-		testLogging {
-			events "failed"
-			exceptionFormat "full"
-		}
-		
-		jacoco {
-			destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-			classDumpDir = file("$buildDir/jacoco/classpathdumps")
-		}
-		
-	}
 
+    task integTest(type: Test) {
+        group = 'verification'
+        description = 'Runs the integration tests.'
+
+        testClassesDirs = sourceSets.integTest.output.classesDirs
+        classpath = sourceSets.integTest.runtimeClasspath
+        mustRunAfter tasks.test
+
+        jacoco {
+            enabled=true
+            destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+            classDumpDir = file("$buildDir/jacoco/classpathdumps")
+        }
+    }
+
+    task functTest(type: Test) {
+        group = 'Verification'
+        description = 'Runs the functional tests.'
+
+        testClassesDirs = sourceSets.functTest.output.classesDirs
+        classpath = sourceSets.functTest.runtimeClasspath
+        mustRunAfter tasks.test
+
+        jacoco {
+            enabled=true
+            destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+            classDumpDir = file("$buildDir/jacoco/classpathdumps")
+        }
+    }
+
+    check.dependsOn integTest
+    check.dependsOn functTest
+
+    eclipse {
+        classpath {
+            plusConfigurations += [configurations.integTestCompile, configurations.functTestCompile,]
+        }
+    }
+
+    jacocoTestReport {
+        additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
+        sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+        classDirectories =  files(sourceSets.main.output)
+        reports {
+            xml.enabled true
+            html.enabled true
+            csv.enabled false
+        }
+    }
+
+    test {
+        testLogging {
+            events "failed"
+            exceptionFormat "full"
+    }
+
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+        }
+    }
 }
+
+
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.enabled true
+        html.enabled true
+        csv.enabled false
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.check
+}
+
