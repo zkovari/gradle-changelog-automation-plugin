@@ -28,6 +28,12 @@ public class ChangelogAutomationPluginFunctionalTest {
 	buildFile = testProjectDir.newFile("build.gradle");
     }
 
+    private void writeFile(File destination, String content) throws IOException {
+	try (BufferedWriter output = new BufferedWriter(new FileWriter(destination))) {
+	    output.write(content);
+	}
+    }
+
     @Test
     public void testApply() throws IOException {
 	writeFile(settingsFile, "rootProject.name = 'test-project'");
@@ -38,12 +44,6 @@ public class ChangelogAutomationPluginFunctionalTest {
 		.withArguments("processChangelogEntries").withPluginClasspath().build();
 
 	assertEquals(UP_TO_DATE, result.task(":processChangelogEntries").getOutcome());
-    }
-
-    private void writeFile(File destination, String content) throws IOException {
-	try (BufferedWriter output = new BufferedWriter(new FileWriter(destination))) {
-	    output.write(content);
-	}
     }
 
 }

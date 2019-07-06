@@ -1,0 +1,6 @@
+dependencies {
+    api 'org.yaml:snakeyaml:1.24'
+    
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.tngtech.junit.dataprovider:junit4-dataprovider:2.6'
+}
