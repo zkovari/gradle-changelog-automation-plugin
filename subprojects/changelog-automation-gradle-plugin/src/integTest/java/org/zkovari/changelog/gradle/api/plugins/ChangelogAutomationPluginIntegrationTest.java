@@ -9,25 +9,24 @@ import org.gradle.testfixtures.ProjectBuilder;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Test;
-import org.zkovari.changelog.gradle.api.plugins.ChangelogAutomationPlugin;
 import org.zkovari.changelog.gradle.api.tasks.ProcessChangelogEntries;
 
 public class ChangelogAutomationPluginIntegrationTest {
 
-	private Project project;
+    private Project project;
 
-	@Before
-	public void setUp() {
-		project = ProjectBuilder.builder().withName("test-project").build();
-	}
+    @Before
+    public void setUp() {
+	project = ProjectBuilder.builder().withName("test-project").build();
+    }
 
-	@Test
-	public void testTasksAreInitialized() {
-		project.getPluginManager().apply(ChangelogAutomationPlugin.class);
+    @Test
+    public void testTasksAreInitialized() {
+	project.getPluginManager().apply(ChangelogAutomationPlugin.class);
 
-		Task processChangelogEntriesTask = project.getTasks().findByName("processChangelogEntries");
-		assertNotNull("Expected task processChangelogEntries", processChangelogEntriesTask);
-		assertThat(processChangelogEntriesTask, IsInstanceOf.instanceOf(ProcessChangelogEntries.class));
-	}
+	Task processChangelogEntriesTask = project.getTasks().findByName("processChangelogEntries");
+	assertNotNull("Expected task processChangelogEntries", processChangelogEntriesTask);
+	assertThat(processChangelogEntriesTask, IsInstanceOf.instanceOf(ProcessChangelogEntries.class));
+    }
 
 }

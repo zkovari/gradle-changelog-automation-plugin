@@ -6,9 +6,9 @@ import org.zkovari.changelog.gradle.api.tasks.ProcessChangelogEntries;
 
 public class ChangelogAutomationPlugin implements Plugin<Project> {
 
-	@Override
-	public void apply(Project project) {
-		project.getTasks().register("processChangelogEntries", ProcessChangelogEntries.class);
-	}
+    @Override
+    public void apply(Project project) {
+	project.getTasks().register("processChangelogEntries", ProcessChangelogEntries.class);
+    }
 
 }
