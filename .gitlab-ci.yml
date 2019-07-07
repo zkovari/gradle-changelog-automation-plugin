@@ -6,6 +6,11 @@ variables:
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
+stages:
+ - build
+ - test
+ - postTest
+
 build:
   stage: build
   script: ./gradlew --build-cache assemble -s
@@ -18,6 +23,7 @@ build:
     paths:
       - build
       - .gradle
+      - subprojects/**/build
 
 test:
   stage: test
@@ -33,6 +39,7 @@ test:
     paths:
       - build
       - .gradle
+      - subprojects/**/build
  
 test with JDK 11:
   image: openjdk:11-jdk
@@ -47,6 +54,7 @@ test with JDK 11:
     paths:
       - build
       - .gradle
+      - subprojects/**/build
       
 test with JDK 13:
   image: openjdk:13-jdk
@@ -62,3 +70,13 @@ test with JDK 13:
     paths:
       - build
       - .gradle
+      - subprojects/**/build
+
+build and test with latest Gradle:
+  image: gradle:latest
+  stage: postTest
+  script: gradle assemble :changelog-automation-gradle-plugin:check
+  allow_failure: true
+  artifacts:
+    reports:
+      junit: subprojects/**/build/test-results/**/TEST-*.xml
