@@ -14,36 +14,44 @@ import org.zkovari.changelog.domain.EntryType;
 public class YamlChangelogEntryParser {
 
     public ChangelogEntry parse(File inputYamlFile) throws ChangelogParserException {
-	Yaml yaml = new Yaml();
-	InputStream ios;
-	try {
-	    ios = new FileInputStream(inputYamlFile);
-	} catch (FileNotFoundException ex) {
-	    throw new ChangelogParserException(ex.getMessage(), ex);
-	}
-	Map<String, Object> entries = yaml.load(ios);
-
 	ChangelogEntry changeLogEntryObj = new ChangelogEntry();
+	Map<String, Object> entries = loadYaml(inputYamlFile);
+	if (entries == null) {
+	    return changeLogEntryObj;
+	}
+
 	for (Entry<String, Object> entry : entries.entrySet()) {
-	    if ("message".equalsIgnoreCase(entry.getKey())) {
-		changeLogEntryObj.setMessage(getValueOrNull(entry));
-	    } else if ("reference".equalsIgnoreCase(entry.getKey())) {
-		changeLogEntryObj.setReference(getValueOrNull(entry));
-	    } else if ("author".equalsIgnoreCase(entry.getKey())) {
-		changeLogEntryObj.setAuthor(getValueOrNull(entry));
-	    } else if ("type".equalsIgnoreCase(entry.getKey())) {
-		changeLogEntryObj.setType(EntryType.valueOf(getValueOrNull(entry).toUpperCase()));
+	    if (entry.getValue() == null) {
+		continue;
 	    }
+	    setChangelogEntryField(changeLogEntryObj, entry);
 	}
 
 	return changeLogEntryObj;
     }
 
-    private String getValueOrNull(Entry<String, Object> entry) {
-	if (entry.getValue() == null) {
-	    return null;
+    private Map<String, Object> loadYaml(File inputYamlFile) throws ChangelogParserException {
+	Yaml yaml = new Yaml();
+	InputStream ios;
+	try {
+	    ios = new FileInputStream(inputYamlFile);
+	} catch (FileNotFoundException ex) {
+	    throw new ChangelogParserException("Input file does not exist: " + inputYamlFile.getName(), ex);
 	}
-	return entry.getValue().toString();
+	return yaml.load(ios);
+    }
+
+    private void setChangelogEntryField(ChangelogEntry changeLogEntryObj, Entry<String, Object> entry) {
+	String value = entry.getValue().toString();
+	if ("message".equalsIgnoreCase(entry.getKey())) {
+	    changeLogEntryObj.setMessage(value);
+	} else if ("reference".equalsIgnoreCase(entry.getKey())) {
+	    changeLogEntryObj.setReference(value);
+	} else if ("author".equalsIgnoreCase(entry.getKey())) {
+	    changeLogEntryObj.setAuthor(value);
+	} else if ("type".equalsIgnoreCase(entry.getKey())) {
+	    changeLogEntryObj.setType(EntryType.valueOf(value.toUpperCase()));
+	}
     }
 
 }

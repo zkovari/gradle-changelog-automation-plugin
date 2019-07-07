@@ -2,6 +2,7 @@ package org.zkovari.changelog.core.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.io.BufferedWriter;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.zkovari.changelog.core.ChangelogTestBase;
@@ -26,13 +28,13 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
 public class YamlChangelogEntryParserTest extends ChangelogTestBase {
 
     private YamlChangelogEntryParser parser;
-    private File entry;
+    private File entryFile;
     ChangelogEntry changelogEntry;
 
     @Before
     public void setUp() throws IOException {
 	parser = new YamlChangelogEntryParser();
-	entry = temp.newFile("entry.yaml");
+	entryFile = temp.newFile("entry.yaml");
     }
 
     @DataProvider
@@ -46,13 +48,13 @@ public class YamlChangelogEntryParserTest extends ChangelogTestBase {
     }
 
     private void write(String content) throws IOException {
-	try (BufferedWriter output = new BufferedWriter(new FileWriter(entry))) {
+	try (BufferedWriter output = new BufferedWriter(new FileWriter(entryFile))) {
 	    output.write(content);
 	}
     }
 
     private void parse() throws ChangelogParserException {
-	changelogEntry = parser.parse(entry);
+	changelogEntry = parser.parse(entryFile);
 	assertNotNull("parsed changelog entry was null", changelogEntry);
     }
 
@@ -139,6 +141,89 @@ public class YamlChangelogEntryParserTest extends ChangelogTestBase {
 	write("type: " + value);
 	parse();
 	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+    }
+
+    @Test
+    @UseDataProvider("entryTypeYamlValuesProvider")
+    public void testParseEntryTypeEnumIfLowerCase(String value) throws Exception {
+	write("type: " + value.toLowerCase());
+	parse();
+	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+    }
+
+    @Test
+    @UseDataProvider("entryTypeYamlValuesProvider")
+    public void testParseEntryTypeEnumIfUpperCase(String value) throws Exception {
+	write("type: " + value.toUpperCase());
+	parse();
+	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+    }
+
+    @Test
+    @UseDataProvider("entryTypeYamlValuesProvider")
+    public void testParseEntryTypeEnumIfEmpty(String value) throws Exception {
+	write("type: ");
+	parse();
+	assertEquals(null, changelogEntry.getType());
+    }
+
+    @Test
+    @UseDataProvider("entryTypeYamlValuesProvider")
+    public void testParseEntryTypeEnumWithApostrophe(String value) throws Exception {
+	write("type: '" + value + "'");
+	parse();
+	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+    }
+
+    @Test
+    @UseDataProvider("entryTypeYamlValuesProvider")
+    public void testParseEntryTypeEnumQuotationMarks(String value) throws Exception {
+	write("type: \"" + value + "\"");
+	parse();
+	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+    }
+
+    @Test
+    public void testParseMultipleEntries() throws Exception {
+	String content = new StringBuilder("message: message value\n").append("type: added\n").append("reference: 1\n")
+		.append("author: tester").toString();
+	write(content);
+
+	parse();
+
+	assertEquals("message value", changelogEntry.getMessage());
+	assertEquals(EntryType.ADDED, changelogEntry.getType());
+	assertEquals("1", changelogEntry.getReference());
+	assertEquals("tester", changelogEntry.getAuthor());
+    }
+
+    @Test
+    public void testParseNonExistingFile() throws Exception {
+	String fileName = "test-non-existing-file-for-changelog-file-parsing-test";
+	thrown.expect(ChangelogParserException.class);
+	thrown.expectMessage("Input file does not exist: " + fileName);
+	parser.parse(new File(fileName));
+    }
+
+    // TODO better error handling
+    @Ignore
+    @Test
+    public void testParseNonInvalidYamlFile() throws Exception {
+	write("message:no-whitespace");
+
+	thrown.expect(ChangelogParserException.class);
+	parse();
+    }
+
+    @Test
+    public void testParseEmptyYamlFile() throws Exception {
+	write("");
+
+	parse();
+	assertNull(changelogEntry.getMessage());
+	assertNull(changelogEntry.getType());
+	assertNull(changelogEntry.getReference());
+	assertNull(changelogEntry.getAuthor());
     }
 
 }
