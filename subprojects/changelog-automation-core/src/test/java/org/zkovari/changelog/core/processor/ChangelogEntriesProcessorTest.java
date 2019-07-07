@@ -28,7 +28,6 @@ import org.zkovari.changelog.domain.Release;
 
 public class ChangelogEntriesProcessorTest extends ChangelogTestBase {
 
-    private static final String V1_0_0 = "1.0.0";
     private ChangelogEntriesProcessor processor;
     private ChangelogEntry addedEntry1;
     private ChangelogEntry addedEntry2;
@@ -42,20 +41,6 @@ public class ChangelogEntriesProcessorTest extends ChangelogTestBase {
 	addedEntry2 = newChangelogEntry("m2", EntryType.ADDED, "ref1", "user1");
 
 	removedEntry1 = newChangelogEntry("m1", EntryType.REMOVED, "ref1", "user1");
-    }
-
-    private ChangelogEntry newChangelogEntry(String message, EntryType type) {
-	return newChangelogEntry(message, type, null, null);
-    }
-
-    private ChangelogEntry newChangelogEntry(String message, EntryType type, String reference, String author) {
-	ChangelogEntry entry = new ChangelogEntry();
-	entry.setMessage(message);
-	entry.setType(type);
-	entry.setReference(reference);
-	entry.setAuthor(author);
-
-	return entry;
     }
 
     private void checkBasicInfo(Release release) {

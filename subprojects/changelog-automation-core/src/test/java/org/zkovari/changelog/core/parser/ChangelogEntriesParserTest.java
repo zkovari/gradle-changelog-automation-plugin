@@ -53,8 +53,9 @@ public class ChangelogEntriesParserTest extends ChangelogTestBase {
 
     @Test
     public void testNullSafeGetters() {
-	assertNotNull("Expected file collector not to be empty", parser.getFileCollector());
-	assertNotNull("Expected parser not to be empty", parser.getParser());
+	ChangelogEntriesParser newParser = new ChangelogEntriesParser();
+	assertNotNull("Expected file collector not to be empty", newParser.getFileCollector());
+	assertNotNull("Expected parser not to be empty", newParser.getParser());
     }
 
     @Test
