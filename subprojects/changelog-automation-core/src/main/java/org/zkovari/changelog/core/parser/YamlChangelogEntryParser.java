@@ -30,6 +30,8 @@ public class YamlChangelogEntryParser {
 	return changeLogEntryObj;
     }
 
+    // TODO better error handling when input fiel is invalid. See
+    // testParseNonInvalidYamlFile test case
     private Map<String, Object> loadYaml(File inputYamlFile) throws ChangelogParserException {
 	Yaml yaml = new Yaml();
 	InputStream ios;
