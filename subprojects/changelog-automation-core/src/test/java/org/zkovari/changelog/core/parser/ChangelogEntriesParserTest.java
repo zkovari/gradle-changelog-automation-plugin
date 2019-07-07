@@ -1,5 +1,6 @@
 package org.zkovari.changelog.core.parser;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -48,6 +49,12 @@ public class ChangelogEntriesParserTest extends ChangelogTestBase {
 	parser = new ChangelogEntriesParser();
 	parser.setFileCollector(collector);
 	parser.setParser(yamlParser);
+    }
+
+    @Test
+    public void testNullSafeGetters() {
+	assertNotNull("Expected file collector not to be empty", parser.getFileCollector());
+	assertNotNull("Expected parser not to be empty", parser.getParser());
     }
 
     @Test
