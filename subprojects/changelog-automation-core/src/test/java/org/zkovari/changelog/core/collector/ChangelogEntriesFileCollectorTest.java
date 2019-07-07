@@ -16,13 +16,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.zkovari.changelog.core.ChangelogTestBase;
 
-public class ChangelogEntryFileCollectorTest extends ChangelogTestBase {
+public class ChangelogEntriesFileCollectorTest extends ChangelogTestBase {
 
-    private ChangelogEntryFileCollector collector;
+    private ChangelogEntriesFileCollector collector;
 
     @Before
     public void setUp() {
-	collector = new ChangelogEntryFileCollector();
+	collector = new ChangelogEntriesFileCollector();
     }
 
     private List<File> collect() throws IOException {

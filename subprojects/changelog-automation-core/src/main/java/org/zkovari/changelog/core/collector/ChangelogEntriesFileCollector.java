@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class ChangelogEntryFileCollector {
+public class ChangelogEntriesFileCollector {
 
     public List<File> collect(File rootDirectory) throws IOException {
 	Objects.requireNonNull(rootDirectory, "rootDirectory cannot be null");
