@@ -2,14 +2,37 @@ plugins {
     id 'java-gradle-plugin'
 }
 
-dependencies {
-    implementation gradleApi()
-    compile project(':changelog-automation-core')
+configurations {
+    jacocoRuntime
+}
 
+dependencies {
+    compile project(':changelog-automation-core')
+    implementation gradleApi()
+
+    jacocoRuntime "org.jacoco:org.jacoco.agent:${jacoco.toolVersion}:runtime"
+    
     testCompile 'junit:junit:4.12'
     integTestCompile 'junit:junit:4.12'
+    
+    functTestRuntime files("$buildDir/testkit")
     functTestCompile 'org.assertj:assertj-core:3.12.2'
 }
+
+task createTestkitFiles {
+    def outputDir = file("$buildDir/testkit")
+    
+    outputs.dir outputDir
+
+    doLast {
+	outputDir.mkdirs()
+	String jacocoPath = configurations.jacocoRuntime.asPath.replace('\\', '/')
+	    
+	file("$outputDir/testkit-gradle.properties").text = "org.gradle.jvmargs=-javaagent:${jacocoPath}=destfile=${buildDir.path.replace('\\', '/')}/jacoco/jacocoTest.exec"
+    }
+}
+
+functTest.dependsOn createTestkitFiles
 
 gradlePlugin {
     plugins {

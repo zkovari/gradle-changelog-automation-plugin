@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -25,13 +26,18 @@ public class ChangelogAutomationPluginFunctionalTest {
     private File settingsFile;
     private File buildFile;
     private File entry1;
+    private String testKitGradleProperties;
 
     @Before
-    public void setup() throws IOException {
+    public void setup() throws IOException, URISyntaxException {
 	settingsFile = testProjectDir.newFile("settings.gradle");
 	buildFile = testProjectDir.newFile("build.gradle");
 	Path unreleasedDir = Files.createDirectories(testProjectDir.getRoot().toPath().resolve("changelog/unreleased"));
 	entry1 = unreleasedDir.resolve("entry1.yml").toFile();
+
+	File testKitGradlePropertiesResource = new File(
+		getClass().getClassLoader().getResource("testkit-gradle.properties").toURI());
+	testKitGradleProperties = new String(Files.readAllBytes(testKitGradlePropertiesResource.toPath()));
     }
 
     private void writeFile(File destination, String content) throws IOException {
@@ -41,14 +47,18 @@ public class ChangelogAutomationPluginFunctionalTest {
     }
 
     @Test
-    public void testApply() throws IOException {
+    public void testApply() throws Exception {
 	writeFile(settingsFile, "rootProject.name = 'test-project'");
 	String buildFileContent = "plugins {id 'org.zkovari.changelog'}";
 	writeFile(buildFile, buildFileContent);
 	writeFile(entry1, "message: test\ntype: added");
 
+	writeFile(new File(testProjectDir.getRoot(), "gradle.properties"), testKitGradleProperties);
+
 	BuildResult result = GradleRunner.create().withProjectDir(testProjectDir.getRoot())
-		.withArguments("processChangelogEntries").withPluginClasspath().build();
+		.withTestKitDir(testProjectDir.newFolder()).withPluginClasspath()
+		.withArguments("processChangelogEntries").build();
+
 	assertEquals(TaskOutcome.SUCCESS, result.task(":processChangelogEntries").getOutcome());
 	assertThat(testProjectDir.getRoot().toPath().resolve("CHANGELOG.md").toFile()).exists();
     }
