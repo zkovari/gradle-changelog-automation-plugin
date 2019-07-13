@@ -1,33 +1,8 @@
 buildscript {
     repositories {
-        maven {
-            url 'https://plugins.gradle.org/m2/'
-        }
-        maven {
-            url 'https://gitlab.com/api/v4/projects/13196104/packages/maven'
-        }
-    }
-
-    dependencies {
-        classpath 'com.adarshr:gradle-test-logger-plugin:1.7.0'
+        mavenCentral()
     }
 }
-
 plugins {
-    id 'groovy'
-    id 'eclipse'
     id 'org.zkovari.changelog' version '0.1.0'
-}
-
-
-apply plugin: 'com.adarshr.test-logger'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile gradleTestKit()
-    testCompile 'junit:junit:4.12'
-    testCompile "org.spockframework:spock-core:1.3-groovy-2.5"
 }
