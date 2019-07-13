@@ -13,14 +13,14 @@ public class ChangelogEntriesParser {
     private ChangelogEntriesFileCollector fileCollector;
     private YamlChangelogEntryParser parser;
 
-    public ChangelogEntriesFileCollector getFileCollector() {
+    ChangelogEntriesFileCollector getFileCollector() {
 	if (fileCollector == null) {
 	    fileCollector = new ChangelogEntriesFileCollector();
 	}
 	return fileCollector;
     }
 
-    public YamlChangelogEntryParser getParser() {
+    YamlChangelogEntryParser getParser() {
 	if (parser == null) {
 	    parser = new YamlChangelogEntryParser();
 	}
