@@ -54,7 +54,7 @@ stages:
 Gradle latest:
   stage: systemTest
   image: gradle:latest
-  script: ./gradlew -p subprojects/changelog-automation-system-tests/ check --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ check --info -s
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
@@ -62,7 +62,7 @@ Gradle latest:
 Gradle latest JDK 11:
   stage: systemTest
   image: gradle:jdk11
-  script: ./gradlew -p subprojects/changelog-automation-system-tests/ check --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ check --info -s
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
@@ -70,7 +70,7 @@ Gradle latest JDK 11:
 Gradle 5.0 JDK 8:
   stage: systemTest
   image: gradle:5.0.0-jdk8
-  script: ./gradlew -p subprojects/changelog-automation-system-tests/ check --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ check --info -s
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
@@ -78,7 +78,7 @@ Gradle 5.0 JDK 8:
 Gradle 4.10.3 JDK 8:
   stage: systemTest
   image: gradle:4.10.3-jdk8
-  script: ./gradlew -p subprojects/changelog-automation-system-tests/ check --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ check --info -s
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
@@ -86,7 +86,7 @@ Gradle 4.10.3 JDK 8:
 Gradle 4.5.1 JDK 8:
   stage: systemTest
   image: gradle:4.5.1-jdk8
-  script: ./gradlew -p subprojects/changelog-automation-system-tests/ check --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ check --info -s
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
@@ -94,7 +94,7 @@ Gradle 4.5.1 JDK 8:
 Gradle 3.5 JDK 8:
   stage: systemTest
   image: gradle:3.5-jdk8
-  script: ./gradlew -p subprojects/changelog-automation-system-tests/ check --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ check --info -s
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
