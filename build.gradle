@@ -56,7 +56,7 @@ subprojects {
             classDumpDir = file("$buildDir/jacoco/classpathdumps")
         }
     }
-    
+
     task sourcesJar(type: Jar) {
         from sourceSets.main.allJava
         archiveClassifier = 'sources'
@@ -66,7 +66,7 @@ subprojects {
         from javadoc
         archiveClassifier = 'javadoc'
     }
-    
+
     publishing {
         repositories {
             maven {
@@ -80,11 +80,11 @@ subprojects {
                 url = "https://gitlab.com/api/v4/projects/13196104/packages/maven"
             }
         }
-    
+
         publications {
             mavenJava(MavenPublication) {
                 from components.java
-                
+
                 artifact sourcesJar
                 artifact javadocJar
             }

@@ -1,0 +1,14 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://gitlab.com/api/v4/projects/13196104/packages/maven'
+        }
+    }
+    dependencies {
+        classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.1.0'
+    }
+}
+
+apply plugin: 'org.zkovari.changelog'
+

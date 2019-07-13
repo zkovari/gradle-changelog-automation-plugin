@@ -1,0 +1,8 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+plugins {
+    id 'org.zkovari.changelog' version '0.1.0'
+}
