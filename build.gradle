@@ -10,29 +10,34 @@ buildscript {
     }
 }
 
+if (project.hasProperty('SNAPSHOT')) {
+    version = "$version-SNAPSHOT"
+}
+
 allprojects {
     apply plugin: 'eclipse'
-    apply plugin: 'jacoco'
-
-    repositories {
-        mavenCentral()
-    }
 
     project.group = 'org.zkovari.changelog'
 }
 
 subprojects {
+    repositories {
+        mavenCentral()
+    }
+
     project.version = project.rootProject.version
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'jacoco'
     apply plugin: 'com.adarshr.test-logger'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
     jacocoTestReport {
-        additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
-        sourceDirectories = files(sourceSets.main.allSource.srcDirs)
-        classDirectories =  files(sourceSets.main.output)
+        getAdditionalSourceDirs().from files(sourceSets.main.allSource.srcDirs)
+        getSourceDirectories().from files(sourceSets.main.allSource.srcDirs)
+        getClassDirectories().from files(sourceSets.main.output)
         reports {
             xml.enabled true
             html.enabled true
@@ -49,6 +54,40 @@ subprojects {
         jacoco {
             destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
             classDumpDir = file("$buildDir/jacoco/classpathdumps")
+        }
+    }
+    
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allJava
+        archiveClassifier = 'sources'
+    }
+
+    task javadocJar(type: Jar) {
+        from javadoc
+        archiveClassifier = 'javadoc'
+    }
+    
+    publishing {
+        repositories {
+            maven {
+                credentials(HttpHeaderCredentials) {
+                    name "Job-Token"
+                    value System.getenv('CI_JOB_TOKEN')
+                }
+                authentication {
+                    header(HttpHeaderAuthentication)
+                }
+                url = "https://gitlab.com/api/v4/projects/13196104/packages/maven"
+            }
+        }
+    
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                
+                artifact sourcesJar
+                artifact javadocJar
+            }
         }
     }
 }
