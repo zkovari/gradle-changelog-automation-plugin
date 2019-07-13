@@ -13,10 +13,8 @@ dependencies {
     jacocoRuntime "org.jacoco:org.jacoco.agent:${jacoco.toolVersion}:runtime"
     
     testCompile 'junit:junit:4.12'
-    integTestCompile 'junit:junit:4.12'
-    
-    functTestRuntime files("$buildDir/testkit")
-    functTestCompile 'org.assertj:assertj-core:3.12.2'
+    testCompile files("$buildDir/testkit")
+    testCompile 'org.assertj:assertj-core:3.12.2'
 }
 
 task createTestkitFiles {
@@ -25,14 +23,14 @@ task createTestkitFiles {
     outputs.dir outputDir
 
     doLast {
-	outputDir.mkdirs()
-	String jacocoPath = configurations.jacocoRuntime.asPath.replace('\\', '/')
+	    outputDir.mkdirs()
+        String jacocoPath = configurations.jacocoRuntime.asPath.replace('\\', '/')
 	    
-	file("$outputDir/testkit-gradle.properties").text = "org.gradle.jvmargs=-javaagent:${jacocoPath}=destfile=${buildDir.path.replace('\\', '/')}/jacoco/jacocoTest.exec"
+        file("$outputDir/testkit-gradle.properties").text = "org.gradle.jvmargs=-javaagent:${jacocoPath}=destfile=${buildDir.path.replace('\\', '/')}/jacoco/jacocoTest.exec"
     }
 }
 
-functTest.dependsOn createTestkitFiles
+check.dependsOn createTestkitFiles
 
 gradlePlugin {
     plugins {
