@@ -11,7 +11,6 @@ stages:
  - test
  - devDeploy
  - systemTest
- - postTest
 
 build:
   stage: build
@@ -25,6 +24,12 @@ build:
     paths:
       - .gradle
       - subprojects/**/build
+
+build with latest Gradle:
+  image: gradle:latest
+  stage: build
+  script: gradle assemble
+  allow_failure: true
 
 test:
   stage: test
@@ -51,12 +56,12 @@ deploy to GitLab:
       - .gradle
       - subprojects/**/build
 
-Gradle latest:
+Gradle latest JDK 8:
   stage: systemTest
   image: gradle:latest
   script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
-Gradle latest in legacy mode:
+Gradle latest JDK 8 in legacy mode:
   stage: systemTest
   image: gradle:latest
   script: gradle -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
@@ -76,20 +81,38 @@ Gradle 4.10.3 JDK 8:
   image: gradle:4.10.3-jdk8
   script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
-Gradle 4.5.1 JDK 8:
+Gradle 4.0 JDK 8:
   stage: systemTest
-  image: gradle:4.5.1-jdk8
+  image: gradle:4.0-jdk8
   script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
-  allow_failure: true
 
 Gradle 3.5 JDK 8:
   stage: systemTest
   image: gradle:3.5-jdk8
   script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
+ 
+Gradle 3.0 JDK 8:
+  stage: systemTest
+  script: 
+   - ./gradlew wrapper --gradle-version 3.0
+   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
+ 
+Gradle 2.14.1 JDK 8:
+  stage: systemTest
+  script: 
+   - ./gradlew wrapper --gradle-version 2.14.1
+   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
+ 
+Gradle 2.0 JDK 8:
+  stage: systemTest
+  script: 
+   - ./gradlew wrapper --gradle-version 2.0
+   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
   allow_failure: true
  
-build with latest Gradle:
-  image: gradle:latest
-  stage: postTest
-  script: gradle assemble
+Gradle 1.12 JDK 8:
+  stage: systemTest
+  script:
+   - ./gradlew wrapper --gradle-version 1.12
+   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
   allow_failure: true
