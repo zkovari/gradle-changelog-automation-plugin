@@ -3,6 +3,9 @@ buildscript {
         mavenCentral()
     }
 }
+
 plugins {
     id 'org.zkovari.changelog' version '0.1.0'
 }
+
+println "Gradle version: ${gradle.gradleVersion}"

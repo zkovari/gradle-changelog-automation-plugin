@@ -10,5 +10,7 @@ buildscript {
     }
 }
 
+println "Gradle version: ${gradle.gradleVersion}"
+
 apply plugin: 'org.zkovari.changelog'
 
