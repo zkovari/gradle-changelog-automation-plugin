@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+if (project.hasProperty('SNAPSHOT')) {
+    version = "$version-SNAPSHOT"
+}
+
 allprojects {
     apply plugin: 'eclipse'
 

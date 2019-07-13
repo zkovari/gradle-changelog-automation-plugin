@@ -22,22 +22,10 @@ build:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
     paths:
-      - build
       - .gradle
       - subprojects/**/build
 
-deploy snapshot:
-  stage: devDeploy
-  script: ./gradlew publish -s
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
-      - subprojects/**/build
-
-.test:
+test:
   stage: test
   script: 
     - ./gradlew check jacocoTestReport
@@ -49,42 +37,20 @@ deploy snapshot:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
-      - build
       - .gradle
       - subprojects/**/build
  
-.test with JDK 11:
-  image: openjdk:11-jdk
-  stage: test
-  script: ./gradlew check
-  artifacts:
-    reports:
-      junit: subprojects/**/build/test-results/**/TEST-*.xml
+deploy snapshot:
+  stage: devDeploy
+  script: ./gradlew publish -s
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
-      - build
-      - .gradle
-      - subprojects/**/build
-      
-.test with JDK 13:
-  image: openjdk:13-jdk
-  stage: test
-  script: ./gradlew check
-  allow_failure: true
-  artifacts:
-    reports:
-      junit: subprojects/**/build/test-results/**/TEST-*.xml
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
       - .gradle
       - subprojects/**/build
 
-.build and test with latest Gradle:
+build and test with latest Gradle:
   image: gradle:latest
   stage: postTest
   script: gradle assemble :changelog-automation-gradle-plugin:check
@@ -92,3 +58,4 @@ deploy snapshot:
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
+ 
