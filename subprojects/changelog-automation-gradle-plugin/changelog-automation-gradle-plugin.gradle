@@ -7,7 +7,7 @@ configurations {
 }
 
 dependencies {
-    compile project(':changelog-automation-core')
+    api project(':changelog-automation-core')
     implementation gradleApi()
 
     jacocoRuntime "org.jacoco:org.jacoco.agent:${jacoco.toolVersion}:runtime"

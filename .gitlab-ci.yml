@@ -9,6 +9,7 @@ before_script:
 stages:
  - build
  - test
+ - devDeploy
  - postTest
 
 build:
@@ -25,7 +26,18 @@ build:
       - .gradle
       - subprojects/**/build
 
-test:
+deploy snapshot:
+  stage: devDeploy
+  script: ./gradlew publish -s
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - build
+      - .gradle
+      - subprojects/**/build
+
+.test:
   stage: test
   script: 
     - ./gradlew check jacocoTestReport
@@ -41,7 +53,7 @@ test:
       - .gradle
       - subprojects/**/build
  
-test with JDK 11:
+.test with JDK 11:
   image: openjdk:11-jdk
   stage: test
   script: ./gradlew check
@@ -56,7 +68,7 @@ test with JDK 11:
       - .gradle
       - subprojects/**/build
       
-test with JDK 13:
+.test with JDK 13:
   image: openjdk:13-jdk
   stage: test
   script: ./gradlew check
@@ -72,7 +84,7 @@ test with JDK 13:
       - .gradle
       - subprojects/**/build
 
-build and test with latest Gradle:
+.build and test with latest Gradle:
   image: gradle:latest
   stage: postTest
   script: gradle assemble :changelog-automation-gradle-plugin:check
