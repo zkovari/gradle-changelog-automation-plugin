@@ -40,7 +40,7 @@ test:
       - .gradle
       - subprojects/**/build
  
-deploy snapshot:
+deploy to GitLab:
   stage: devDeploy
   script: ./gradlew publish -s
   cache:
