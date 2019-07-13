@@ -1,15 +1,18 @@
 package org.zkovari.changelog.gradle.api.plugins;
 
-import static org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.gradle.testkit.runner.TaskOutcome;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,11 +24,14 @@ public class ChangelogAutomationPluginFunctionalTest {
     public final TemporaryFolder testProjectDir = new TemporaryFolder();
     private File settingsFile;
     private File buildFile;
+    private File entry1;
 
     @Before
     public void setup() throws IOException {
 	settingsFile = testProjectDir.newFile("settings.gradle");
 	buildFile = testProjectDir.newFile("build.gradle");
+	Path unreleasedDir = Files.createDirectories(testProjectDir.getRoot().toPath().resolve("changelog/unreleased"));
+	entry1 = unreleasedDir.resolve("entry1.yml").toFile();
     }
 
     private void writeFile(File destination, String content) throws IOException {
@@ -39,11 +45,12 @@ public class ChangelogAutomationPluginFunctionalTest {
 	writeFile(settingsFile, "rootProject.name = 'test-project'");
 	String buildFileContent = "plugins {id 'org.zkovari.changelog'}";
 	writeFile(buildFile, buildFileContent);
+	writeFile(entry1, "message: test\ntype: added");
 
 	BuildResult result = GradleRunner.create().withProjectDir(testProjectDir.getRoot())
 		.withArguments("processChangelogEntries").withPluginClasspath().build();
-
-	assertEquals(UP_TO_DATE, result.task(":processChangelogEntries").getOutcome());
+	assertEquals(TaskOutcome.SUCCESS, result.task(":processChangelogEntries").getOutcome());
+	assertThat(testProjectDir.getRoot().toPath().resolve("CHANGELOG.md").toFile()).exists();
     }
 
 }

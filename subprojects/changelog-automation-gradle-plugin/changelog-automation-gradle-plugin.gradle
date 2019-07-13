@@ -1,21 +1,21 @@
 plugins {
-	id 'java-gradle-plugin'
+    id 'java-gradle-plugin'
 }
 
 dependencies {
-	testCompile 'junit:junit:4.12'
+    implementation gradleApi()
+    compile project(':changelog-automation-core')
+
+    testCompile 'junit:junit:4.12'
+    integTestCompile 'junit:junit:4.12'
+    functTestCompile 'org.assertj:assertj-core:3.12.2'
 }
 
 gradlePlugin {
-	plugins {
-		changelog {
-			id = 'org.zkovari.changelog'
-			implementationClass = 'org.zkovari.changelog.gradle.api.plugins.ChangelogAutomationPlugin'
-		}
-	}
-}
-dependencies {
-	implementation gradleApi()
-
-	integTestCompile 'junit:junit:4.12'
+    plugins {
+        changelog {
+            id = 'org.zkovari.changelog'
+            implementationClass = 'org.zkovari.changelog.gradle.api.plugins.ChangelogAutomationPlugin'
+        }
+    }
 }
