@@ -13,7 +13,7 @@ stages:
  - systemTest
  - postTest
 
-.build:
+build:
   stage: build
   script: ./gradlew --build-cache assemble -s
   artifacts:
@@ -26,7 +26,7 @@ stages:
       - .gradle
       - subprojects/**/build
 
-.test:
+test:
   stage: test
   script: 
     - ./gradlew check jacocoTestReport
@@ -41,7 +41,7 @@ stages:
       - .gradle
       - subprojects/**/build
  
-.deploy to GitLab:
+deploy to GitLab:
   stage: devDeploy
   script: ./gradlew publish -s
   cache:
@@ -54,44 +54,42 @@ stages:
 Gradle latest:
   stage: systemTest
   image: gradle:latest
-  script: gradle -p subprojects/changelog-automation-system-tests/ buildEnv --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
 Gradle latest in legacy mode:
   stage: systemTest
   image: gradle:latest
-  script: gradle -p subprojects/changelog-automation-legacy-system-tests/ buildEnv --info -s
+  script: gradle -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
 
 Gradle latest JDK 11:
   stage: systemTest
   image: gradle:jdk11
-  script: gradle -p subprojects/changelog-automation-system-tests/ buildEnv --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
 Gradle 5.0 JDK 8:
   stage: systemTest
   image: gradle:5.0.0-jdk8
-  script: gradle -p subprojects/changelog-automation-system-tests/ buildEnv --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
 Gradle 4.10.3 JDK 8:
   stage: systemTest
   image: gradle:4.10.3-jdk8
-  script: gradle -p subprojects/changelog-automation-system-tests/ buildEnv --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
 Gradle 4.5.1 JDK 8:
   stage: systemTest
   image: gradle:4.5.1-jdk8
-  script: gradle -p subprojects/changelog-automation-system-tests/ buildEnv --info -s
+  script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
+  allow_failure: true
 
 Gradle 3.5 JDK 8:
   stage: systemTest
   image: gradle:3.5-jdk8
-  script: gradle -p subprojects/changelog-automation-system-tests/ buildEnv --info -s
-
-.build and test with latest Gradle:
+  script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
+  allow_failure: true
+ 
+build with latest Gradle:
   image: gradle:latest
   stage: postTest
-  script: gradle assemble :changelog-automation-gradle-plugin:check
+  script: gradle assemble
   allow_failure: true
-  artifacts:
-    reports:
-      junit: subprojects/**/build/test-results/**/TEST-*.xml
- 
