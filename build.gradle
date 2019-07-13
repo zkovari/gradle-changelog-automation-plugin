@@ -79,6 +79,8 @@ subprojects {
 
     check.dependsOn integTest
     check.dependsOn functTest
+    
+    functTest.mustRunAfter integTest
 
     eclipse {
         classpath {
