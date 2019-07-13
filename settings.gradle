@@ -4,6 +4,8 @@ include 'changelog-automation-gradle-plugin'
 include 'changelog-automation-core'
 include 'changelog-automation-bin'
 
+includeBuild 'subprojects/changelog-automation-system-tests'
+
 // Idea from: https://github.com/gradle/gradle/blob/master/settings.gradle
 rootProject.children.each {project ->
     project.projectDir = new File(settingsDir, "subprojects/${project.name}")
