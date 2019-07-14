@@ -47,7 +47,7 @@ public class ReleaseEntryGenerator {
 	releaseContent.append("### ").append(type.getValue()).append(NEW_LINE);
 	for (ChangelogEntry entry : entries) {
 	    releaseContent.append(MessageFormat.format("- {0}{1}{2}", stringifyReference(entry.getReference()),
-		    entry.getMessage(), stringifyAuthor(entry.getAuthor()))).append(NEW_LINE);
+		    entry.getTitle(), stringifyAuthor(entry.getAuthor()))).append(NEW_LINE);
 	}
     }
 

@@ -15,13 +15,13 @@ public abstract class ChangelogTestBase {
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
 
-    protected ChangelogEntry newChangelogEntry(String message, EntryType type) {
-	return newChangelogEntry(message, type, null, null);
+    protected ChangelogEntry newChangelogEntry(String title, EntryType type) {
+	return newChangelogEntry(title, type, null, null);
     }
 
-    protected ChangelogEntry newChangelogEntry(String message, EntryType type, String reference, String author) {
+    protected ChangelogEntry newChangelogEntry(String title, EntryType type, String reference, String author) {
 	ChangelogEntry entry = new ChangelogEntry();
-	entry.setMessage(message);
+	entry.setTitle(title);
 	entry.setType(type);
 	entry.setReference(reference);
 	entry.setAuthor(author);

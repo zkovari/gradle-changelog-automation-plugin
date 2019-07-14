@@ -2,17 +2,17 @@ package org.zkovari.changelog.domain;
 
 public class ChangelogEntry {
 
-    private String message;
+    private String title;
     private EntryType type;
     private String author;
     private String reference;
 
-    public String getMessage() {
-	return message;
+    public String getTitle() {
+	return title;
     }
 
-    public void setMessage(String message) {
-	this.message = message;
+    public void setTitle(String title) {
+	this.title = title;
     }
 
     public EntryType getType() {

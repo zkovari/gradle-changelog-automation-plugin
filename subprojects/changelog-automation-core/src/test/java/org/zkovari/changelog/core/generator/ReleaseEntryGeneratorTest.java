@@ -33,78 +33,78 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
 
     @Before
     public void setUp() {
-	generator = new ReleaseEntryGenerator();
-	release = new Release();
-	releaseHeader = "## [1.0.0] - 2019-07-07" + NL;
-	release.setVersion(V1_0_0);
-	release.setDate(DATE);
+        generator = new ReleaseEntryGenerator();
+        release = new Release();
+        releaseHeader = "## [1.0.0] - 2019-07-07" + NL;
+        release.setVersion(V1_0_0);
+        release.setDate(DATE);
     }
 
     @DataProvider
     public static List<EntryType> entryTypes() {
-	return Arrays.asList(EntryType.values());
+        return Arrays.asList(EntryType.values());
     }
 
     @Test
     public void testGenerateWithoutEntry() {
 
-	String content = generator.generate(release);
-	assertEquals(releaseHeader, content);
+        String content = generator.generate(release);
+        assertEquals(releaseHeader, content);
     }
 
     @Test
     @UseDataProvider("entryTypes")
     public void testGenerateSingleEntry(EntryType type) {
-	release.setEntries(new HashMap<>());
-	release.getEntries().put(type, Arrays.asList(newChangelogEntry("message1", type)));
+        release.setEntries(new HashMap<>());
+        release.getEntries().put(type, Arrays.asList(newChangelogEntry("title1", type)));
 
-	String content = generator.generate(release);
-	String expectedContent = MessageFormat.format("{0}### {1}{2}- message1{3}{4}", releaseHeader, type.getValue(),
-		NL, NL, NL);
-	assertEquals(expectedContent, content);
+        String content = generator.generate(release);
+        String expectedContent = MessageFormat.format("{0}### {1}{2}- title1{3}{4}", releaseHeader, type.getValue(), NL,
+                NL, NL);
+        assertEquals(expectedContent, content);
     }
 
     @Test
     @UseDataProvider("entryTypes")
     public void testGenerateSingleEntryWithReferenceAndAuthor(EntryType type) {
-	release.setEntries(new HashMap<>());
-	release.getEntries().put(type, Arrays.asList(newChangelogEntry("message1", type, "ref1", "author")));
+        release.setEntries(new HashMap<>());
+        release.getEntries().put(type, Arrays.asList(newChangelogEntry("title1", type, "ref1", "author")));
 
-	String content = generator.generate(release);
-	String expectedContent = format("{0}### {1}{2}- ref1 message1 (author){3}{4}", releaseHeader, type.getValue(),
-		NL, NL, NL);
-	assertEquals(expectedContent, content);
+        String content = generator.generate(release);
+        String expectedContent = format("{0}### {1}{2}- ref1 title1 (author){3}{4}", releaseHeader, type.getValue(), NL,
+                NL, NL);
+        assertEquals(expectedContent, content);
     }
 
     @Test
     @UseDataProvider("entryTypes")
     public void testGenerateMultipleEntriesPerType(EntryType type) {
-	release.setEntries(new HashMap<>());
-	release.getEntries().put(type,
-		Arrays.asList(newChangelogEntry("message1", type), newChangelogEntry("message2", type)));
+        release.setEntries(new HashMap<>());
+        release.getEntries().put(type,
+                Arrays.asList(newChangelogEntry("title1", type), newChangelogEntry("title2", type)));
 
-	String content = generator.generate(release);
-	String expectedContent = releaseHeader + format("### {0}{1}- message1{2}", type.getValue(), NL, NL)
-		+ format("- message2{0}{1}", NL, NL);
-	assertEquals(expectedContent, content);
+        String content = generator.generate(release);
+        String expectedContent = releaseHeader + format("### {0}{1}- title1{2}", type.getValue(), NL, NL)
+                + format("- title2{0}{1}", NL, NL);
+        assertEquals(expectedContent, content);
     }
 
     @Test
     public void testGenerateMultipleTypes() {
-	release.setEntries(new HashMap<>());
-	for (EntryType type : EntryType.values()) {
-	    release.getEntries().put(type,
-		    Arrays.asList(newChangelogEntry("message1", type), newChangelogEntry("message2", type)));
-	}
+        release.setEntries(new HashMap<>());
+        for (EntryType type : EntryType.values()) {
+            release.getEntries().put(type,
+                    Arrays.asList(newChangelogEntry("title1", type), newChangelogEntry("title2", type)));
+        }
 
-	String content = generator.generate(release);
-	String expectedContent = releaseHeader + format("### Added{0}- message1{1}- message2{2}{3}", NL, NL, NL, NL)
-		+ format("### Changed{0}- message1{1}- message2{2}{3}", NL, NL, NL, NL)
-		+ format("### Deprecated{0}- message1{1}- message2{2}{3}", NL, NL, NL, NL)
-		+ format("### Fixed{0}- message1{1}- message2{2}{3}", NL, NL, NL, NL)
-		+ format("### Removed{0}- message1{1}- message2{2}{3}", NL, NL, NL, NL)
-		+ format("### Security{0}- message1{1}- message2{2}{3}", NL, NL, NL, NL);
-	assertEquals(expectedContent, content);
+        String content = generator.generate(release);
+        String expectedContent = releaseHeader + format("### Added{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL)
+                + format("### Changed{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL)
+                + format("### Deprecated{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL)
+                + format("### Fixed{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL)
+                + format("### Removed{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL)
+                + format("### Security{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL);
+        assertEquals(expectedContent, content);
     }
 
 }

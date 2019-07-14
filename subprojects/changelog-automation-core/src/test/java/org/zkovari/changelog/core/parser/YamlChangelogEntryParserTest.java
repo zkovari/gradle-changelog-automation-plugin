@@ -33,197 +33,197 @@ public class YamlChangelogEntryParserTest extends ChangelogTestBase {
 
     @Before
     public void setUp() throws IOException {
-	parser = new YamlChangelogEntryParser();
-	entryFile = temp.newFile("entry.yaml");
+        parser = new YamlChangelogEntryParser();
+        entryFile = temp.newFile("entry.yaml");
     }
 
     @DataProvider
     public static List<String> stringYamlKeysProvider() {
-	return Arrays.asList("message", "reference", "author");
+        return Arrays.asList("title", "reference", "author");
     }
 
     @DataProvider
     public static List<String> entryTypeYamlValuesProvider() {
-	return Arrays.asList("Added", "Changed", "Deprecated", "Removed", "Fixed", "Security");
+        return Arrays.asList("Added", "Changed", "Deprecated", "Removed", "Fixed", "Security");
     }
 
     private void write(String content) throws IOException {
-	try (BufferedWriter output = new BufferedWriter(new FileWriter(entryFile))) {
-	    output.write(content);
-	}
+        try (BufferedWriter output = new BufferedWriter(new FileWriter(entryFile))) {
+            output.write(content);
+        }
     }
 
     private void parse() throws ChangelogParserException {
-	changelogEntry = parser.parse(entryFile);
-	assertNotNull("parsed changelog entry was null", changelogEntry);
+        changelogEntry = parser.parse(entryFile);
+        assertNotNull("parsed changelog entry was null", changelogEntry);
     }
 
     private void checkStringValue(String key, String expectedValue) {
-	if (key.equals("message")) {
-	    assertEquals(expectedValue, changelogEntry.getMessage());
-	} else if (key.equals("reference")) {
-	    assertEquals(expectedValue, changelogEntry.getReference());
-	} else if (key.equals("author")) {
-	    assertEquals(expectedValue, changelogEntry.getAuthor());
-	} else {
-	    fail("unexpected key in check: " + key);
-	}
+        if (key.equals("title")) {
+            assertEquals(expectedValue, changelogEntry.getTitle());
+        } else if (key.equals("reference")) {
+            assertEquals(expectedValue, changelogEntry.getReference());
+        } else if (key.equals("author")) {
+            assertEquals(expectedValue, changelogEntry.getAuthor());
+        } else {
+            fail("unexpected key in check: " + key);
+        }
     }
 
     @Test
     @UseDataProvider("stringYamlKeysProvider")
     public void testParseStringEntry(String key) throws Exception {
-	write(key + ": value");
-	parse();
-	checkStringValue(key, "value");
+        write(key + ": value");
+        parse();
+        checkStringValue(key, "value");
     }
 
     @Test
     @UseDataProvider("stringYamlKeysProvider")
     public void testParseStringEntryIfCapital(String key) throws Exception {
-	String capitalizedKey = key.substring(0, 1).toUpperCase() + key.substring(1);
-	write(capitalizedKey + ": value");
-	parse();
-	checkStringValue(key, "value");
+        String capitalizedKey = key.substring(0, 1).toUpperCase() + key.substring(1);
+        write(capitalizedKey + ": value");
+        parse();
+        checkStringValue(key, "value");
     }
 
     @Test
     @UseDataProvider("stringYamlKeysProvider")
     public void testParseStringEntryIfUpperCase(String key) throws Exception {
-	write(key.toUpperCase() + ": value");
-	parse();
-	checkStringValue(key, "value");
+        write(key.toUpperCase() + ": value");
+        parse();
+        checkStringValue(key, "value");
     }
 
     @Test
     @UseDataProvider("stringYamlKeysProvider")
     public void testParseStringEntryWithApostrophe(String key) throws Exception {
-	write(key + ": 'value'");
-	parse();
-	checkStringValue(key, "value");
+        write(key + ": 'value'");
+        parse();
+        checkStringValue(key, "value");
     }
 
     @Test
     @UseDataProvider("stringYamlKeysProvider")
     public void testParseStringEntryWithQuotationMarks(String key) throws Exception {
-	write(key + ": \"value\"");
-	parse();
-	checkStringValue(key, "value");
+        write(key + ": \"value\"");
+        parse();
+        checkStringValue(key, "value");
     }
 
     @Test
     @UseDataProvider("stringYamlKeysProvider")
     public void testParseStringEntryWithWhitespace(String key) throws Exception {
-	write(key + ": longer value with whitespace");
-	parse();
-	checkStringValue(key, "longer value with whitespace");
+        write(key + ": longer value with whitespace");
+        parse();
+        checkStringValue(key, "longer value with whitespace");
     }
 
     @Test
     @UseDataProvider("stringYamlKeysProvider")
     public void testParseStringEntryIfEmpty(String key) throws Exception {
-	write(key + ": ");
-	parse();
-	checkStringValue(key, null);
+        write(key + ": ");
+        parse();
+        checkStringValue(key, null);
     }
 
     @Test
     @UseDataProvider("stringYamlKeysProvider")
     public void testParseStringEntryWithSpecialCharacters(String key) throws Exception {
-	write(key + ": value 1234 [] !@#$%^&*(");
-	parse();
-	checkStringValue(key, "value 1234 [] !@#$%^&*(");
+        write(key + ": value 1234 [] !@#$%^&*(");
+        parse();
+        checkStringValue(key, "value 1234 [] !@#$%^&*(");
     }
 
     @Test
     @UseDataProvider("entryTypeYamlValuesProvider")
     public void testParseEntryTypeEnum(String value) throws Exception {
-	write("type: " + value);
-	parse();
-	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+        write("type: " + value);
+        parse();
+        assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
     }
 
     @Test
     @UseDataProvider("entryTypeYamlValuesProvider")
     public void testParseEntryTypeEnumIfLowerCase(String value) throws Exception {
-	write("type: " + value.toLowerCase());
-	parse();
-	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+        write("type: " + value.toLowerCase());
+        parse();
+        assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
     }
 
     @Test
     @UseDataProvider("entryTypeYamlValuesProvider")
     public void testParseEntryTypeEnumIfUpperCase(String value) throws Exception {
-	write("type: " + value.toUpperCase());
-	parse();
-	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+        write("type: " + value.toUpperCase());
+        parse();
+        assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
     }
 
     @Test
     @UseDataProvider("entryTypeYamlValuesProvider")
     public void testParseEntryTypeEnumIfEmpty(String value) throws Exception {
-	write("type: ");
-	parse();
-	assertEquals(null, changelogEntry.getType());
+        write("type: ");
+        parse();
+        assertEquals(null, changelogEntry.getType());
     }
 
     @Test
     @UseDataProvider("entryTypeYamlValuesProvider")
     public void testParseEntryTypeEnumWithApostrophe(String value) throws Exception {
-	write("type: '" + value + "'");
-	parse();
-	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+        write("type: '" + value + "'");
+        parse();
+        assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
     }
 
     @Test
     @UseDataProvider("entryTypeYamlValuesProvider")
     public void testParseEntryTypeEnumQuotationMarks(String value) throws Exception {
-	write("type: \"" + value + "\"");
-	parse();
-	assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+        write("type: \"" + value + "\"");
+        parse();
+        assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
     }
 
     @Test
     public void testParseMultipleEntries() throws Exception {
-	String content = new StringBuilder("message: message value\n").append("type: added\n").append("reference: 1\n")
-		.append("author: tester").toString();
-	write(content);
+        String content = new StringBuilder("title: title value\n").append("type: added\n").append("reference: 1\n")
+                .append("author: tester").toString();
+        write(content);
 
-	parse();
+        parse();
 
-	assertEquals("message value", changelogEntry.getMessage());
-	assertEquals(EntryType.ADDED, changelogEntry.getType());
-	assertEquals("1", changelogEntry.getReference());
-	assertEquals("tester", changelogEntry.getAuthor());
+        assertEquals("title value", changelogEntry.getTitle());
+        assertEquals(EntryType.ADDED, changelogEntry.getType());
+        assertEquals("1", changelogEntry.getReference());
+        assertEquals("tester", changelogEntry.getAuthor());
     }
 
     @Test
     public void testParseNonExistingFile() throws Exception {
-	String fileName = "test-non-existing-file-for-changelog-file-parsing-test";
-	thrown.expect(ChangelogParserException.class);
-	thrown.expectMessage("Input file does not exist: " + fileName);
-	parser.parse(new File(fileName));
+        String fileName = "test-non-existing-file-for-changelog-file-parsing-test";
+        thrown.expect(ChangelogParserException.class);
+        thrown.expectMessage("Input file does not exist: " + fileName);
+        parser.parse(new File(fileName));
     }
 
     // TODO better error handling
     @Ignore
     @Test
     public void testParseNonInvalidYamlFile() throws Exception {
-	write("message:no-whitespace");
+        write("title:no-whitespace");
 
-	thrown.expect(ChangelogParserException.class);
-	parse();
+        thrown.expect(ChangelogParserException.class);
+        parse();
     }
 
     @Test
     public void testParseEmptyYamlFile() throws Exception {
-	write("");
+        write("");
 
-	parse();
-	assertNull(changelogEntry.getMessage());
-	assertNull(changelogEntry.getType());
-	assertNull(changelogEntry.getReference());
-	assertNull(changelogEntry.getAuthor());
+        parse();
+        assertNull(changelogEntry.getTitle());
+        assertNull(changelogEntry.getType());
+        assertNull(changelogEntry.getReference());
+        assertNull(changelogEntry.getAuthor());
     }
 
 }
