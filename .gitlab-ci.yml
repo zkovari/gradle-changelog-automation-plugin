@@ -19,6 +19,7 @@ test script:
    - chmod +x ./changelog.sh
    - ./changelog.sh -t added "Title message"
    - ls -al
+   - cat changelogs/unreleased/*.yml
 
 .build:
   stage: build
