@@ -33,7 +33,7 @@ build with latest Gradle:
 
 test:
   stage: test
-  script: 
+  script:
     - ./gradlew check jacocoTestReport
     - bash <(curl -s https://codecov.io/bash)
   artifacts:
@@ -45,7 +45,7 @@ test:
     paths:
       - .gradle
       - subprojects/**/build
- 
+
 deploy to GitLab:
   stage: devDeploy
   script: ./gradlew publish -s
@@ -90,26 +90,26 @@ Gradle 3.5 JDK 8:
   stage: systemTest
   image: gradle:3.5-jdk8
   script: gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
- 
+
 Gradle 3.0 JDK 8:
   stage: systemTest
-  script: 
+  script:
    - ./gradlew wrapper --gradle-version 3.0
    - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
- 
+
 Gradle 2.14.1 JDK 8:
   stage: systemTest
-  script: 
+  script:
    - ./gradlew wrapper --gradle-version 2.14.1
    - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
- 
+
 Gradle 2.0 JDK 8:
   stage: systemTest
-  script: 
+  script:
    - ./gradlew wrapper --gradle-version 2.0
    - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
   allow_failure: true
- 
+
 Gradle 1.12 JDK 8:
   stage: systemTest
   script:
