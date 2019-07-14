@@ -140,7 +140,7 @@ class ChangelogBashTest extends Specification {
 
     def "generate added changelog"() {
         when:
-        run("--type added 'Title message'")
+        run('--type added "Title message"')
 
         then:
         def changelogContent = getGeneratedChangelogContent()
@@ -153,7 +153,7 @@ class ChangelogBashTest extends Specification {
 
     def "generate changed changelog"() {
         when:
-        run("--type changed 'Title message'")
+        run('--type changed "Title message"')
 
         then:
         def changelogContent = getGeneratedChangelogContent()
@@ -166,7 +166,7 @@ class ChangelogBashTest extends Specification {
 
     def "generate deprecated changelog"() {
         when:
-        run("--type deprecated 'Title message'")
+        run('--type deprecated "Title message"')
 
         then:
         def changelogContent = getGeneratedChangelogContent()
@@ -179,7 +179,7 @@ class ChangelogBashTest extends Specification {
 
     def "generate fixed changelog"() {
         when:
-        run("--type fixed 'Title message'")
+        run('--type fixed "Title message"')
 
         then:
         def changelogContent = getGeneratedChangelogContent()
@@ -192,7 +192,7 @@ class ChangelogBashTest extends Specification {
 
     def "generate removed changelog"() {
         when:
-        run("--type removed 'Title message'")
+        run('--type removed "Title message"')
 
         then:
         def changelogContent = getGeneratedChangelogContent()
@@ -205,7 +205,7 @@ class ChangelogBashTest extends Specification {
 
     def "generate security changelog"() {
         when:
-        run("--type security 'Title message'")
+        run('--type security "Title message"')
 
         then:
         def changelogContent = getGeneratedChangelogContent()
@@ -218,7 +218,7 @@ class ChangelogBashTest extends Specification {
 
     def "generate changelog with reference -r"() {
         when:
-        run("--type added -r 123 'Title message'")
+        run('--type added -r 123 "Title message"')
 
         then:
         def changelogContent = getGeneratedChangelogContent()
@@ -231,7 +231,7 @@ class ChangelogBashTest extends Specification {
 
     def "generate changelog with reference --reference"() {
         when:
-        run("--type added --reference 123 'Title message'")
+        run('--type added --reference 123 "Title message"')
 
         then:
         def changelogContent = getGeneratedChangelogContent()
