@@ -10,7 +10,7 @@ public class ChangelogAutomationPlugin implements Plugin<Project> {
     public void apply(Project project) {
         ProcessChangelogEntries processTask = project.getTasks().create("processChangelogEntries",
                 ProcessChangelogEntries.class);
-        processTask.setInputDirectory(project.file("changelog/unreleased"));
+        processTask.setInputDirectory(project.file("changelogs/unreleased"));
         processTask.setOutputfile(project.file("CHANGELOG.md"));
     }
 
