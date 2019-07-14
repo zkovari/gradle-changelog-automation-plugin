@@ -59,7 +59,7 @@ class ChangelogBashTest extends Specification {
         run('-h')
 
         then:
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]... --type [TYPE] [TITLE]")
+        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
         assert !unreleasedDir.exists()
     }
 
@@ -68,7 +68,7 @@ class ChangelogBashTest extends Specification {
         run('--help')
 
         then:
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]... --type [TYPE] [TITLE]")
+        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
         assert !unreleasedDir.exists()
     }
 
@@ -78,7 +78,7 @@ class ChangelogBashTest extends Specification {
 
         then:
         assert standardOutput.toString().contains("Title must be specified")
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]... --type [TYPE] [TITLE]")
+        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
         assert !unreleasedDir.exists()
     }
 
@@ -88,7 +88,7 @@ class ChangelogBashTest extends Specification {
 
         then:
         assert standardOutput.toString().contains("Type must be specified")
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]... --type [TYPE] [TITLE]")
+        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
         assert !unreleasedDir.exists()
     }
 
@@ -98,7 +98,7 @@ class ChangelogBashTest extends Specification {
 
         then:
         assert standardOutput.toString().contains("Title must be specified")
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]... --type [TYPE] [TITLE]")
+        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
         assert !unreleasedDir.exists()
     }
 
