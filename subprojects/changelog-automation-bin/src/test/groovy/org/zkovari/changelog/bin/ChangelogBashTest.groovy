@@ -38,7 +38,6 @@ class ChangelogBashTest extends Specification {
     }
 
     private String getGeneratedChangelogContent(String expectedFileName=null) {
-        assert standardOutput.toString().contains("New changelog was generated to:")
         def generatedEntries = (unreleasedDir.list() as List)
         assert unreleasedDir.exists() && unreleasedDir.directory && !generatedEntries.empty
         assert generatedEntries.size == 1
@@ -59,7 +58,7 @@ class ChangelogBashTest extends Specification {
         run('-h')
 
         then:
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
+        assert standardOutput.toString() =~ "Usage"
         assert !unreleasedDir.exists()
     }
 
@@ -68,7 +67,7 @@ class ChangelogBashTest extends Specification {
         run('--help')
 
         then:
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
+        assert standardOutput.toString() =~ "Usage"
         assert !unreleasedDir.exists()
     }
 
@@ -78,7 +77,7 @@ class ChangelogBashTest extends Specification {
 
         then:
         assert standardOutput.toString().contains("Title must be specified")
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
+        assert standardOutput.toString() =~ "Usage"
         assert !unreleasedDir.exists()
     }
 
@@ -88,7 +87,7 @@ class ChangelogBashTest extends Specification {
 
         then:
         assert standardOutput.toString().contains("Type must be specified")
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
+        assert standardOutput.toString() =~ "Usage"
         assert !unreleasedDir.exists()
     }
 
@@ -98,7 +97,7 @@ class ChangelogBashTest extends Specification {
 
         then:
         assert standardOutput.toString().contains("Title must be specified")
-        assert standardOutput.toString().contains("Usage: changelog.sh [OPTION]")
+        assert standardOutput.toString() =~ "Usage"
         assert !unreleasedDir.exists()
     }
 
