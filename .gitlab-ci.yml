@@ -12,14 +12,15 @@ stages:
  - devDeploy
  - systemTest
 
-test script:
+test:
   stage: build
   script:
-   - cd subprojects/changelog-automation-bin/src/main/resources/
-   - chmod +x ./changelog.sh
-   - ./changelog.sh -t added "Title message"
-   - ls -al
-   - cat changelogs/unreleased/*.yml
+   - ./gradlew -p subprojects/changelog-automation-bin/ check 
+   #- cd subprojects/changelog-automation-bin/src/main/resources/
+   #- chmod +x ./changelog.sh
+   #- ./changelog.sh -t added "Title message"
+   #- ls -al
+   #- cat changelogs/unreleased/*.yml
 
 .build:
   stage: build
