@@ -1,6 +1,0 @@
-engines:
-  checkstyle:
-    enabled: true
-    checks:
-      com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck:
-        enabled: false
