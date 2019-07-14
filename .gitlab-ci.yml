@@ -12,7 +12,14 @@ stages:
  - devDeploy
  - systemTest
 
-build:
+test script:
+  stage: build
+  script:
+   - cd subprojects/changelog-automation-bin/src/main/resources/
+   - ./changelog.sh -t added "Title message"
+   - ls -al
+
+.build:
   stage: build
   script: ./gradlew --build-cache assemble -s
   artifacts:
@@ -25,13 +32,13 @@ build:
       - .gradle
       - subprojects/**/build
 
-build with latest Gradle:
+.build with latest Gradle:
   image: gradle:latest
   stage: build
   script: gradle assemble
   allow_failure: true
 
-test:
+.test:
   stage: test
   script:
     - ./gradlew check jacocoTestReport
