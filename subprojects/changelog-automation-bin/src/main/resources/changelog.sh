@@ -31,22 +31,51 @@ set -e
 function display_help {
     cat <<Help
 Usage: $(basename "$0") [OPTION]... --type [TYPE] [TITLE]
-Generate a .yml file that corresponds to a new changelog entry.
-Example: $(basename "$0") --type added 'My new feature'
 
-Obligatory option:
-        -t| -- type          the type of the changelog entry
+Generate a .yml file that corresponds to a new changelog entry.
+The .yml file is generated under 'changelogs/unreleased' directory
+relative to the current working directory where this script is executed.
+
+Example: $(basename "$0") --type added "My new feature"
+
+------------------------------------------------------------------------------
+
+Obligatory:
+
+  -t| --type [TYPE]     the type of the changelog entry. Available values:
+                        added, changed, deprecated, fixed, removed, security
+
+Options for changelog content generation:
+
+  -r| --reference [REF] write an extra reference to the changelog.
+                        Typically reference of an issue or a merge/pull request
+  -u| --git-username    write the current git user.name to the changelog
 
 Miscellaneous:
-        -h| --help           display this help text and exit
-        -v|--version         display version information and exit
-        --dry-run            display the .yml changelog entry without 
-                             generating the file
+
+  -h| --help            display this help text and exit
+  -v| --version          display version information and exit
+  --dry-run             display the .yml changelog entry without 
+                        generating the file
 
 ------------------------------------------------------------------------------
 
 Examples:
 
+# 'added' changelog entry
+$(basename "$0") --type added "Add new feature"
+
+# 'removed' changelog entry
+$(basename "$0") -t removed "Removed legacy behaviour"
+
+# 'added' changelog entry with extra reference and git user name.
+# Reference '18' could point to an issue or a merge/pull request
+$(basename "$0") -t added -r 18 -u "Add new feature"
+
+------------------------------------------------------------------------------
+
+Author: Zsolt Kovari
+Reference: https://github.com/zkovari/gradle-changelog-automation-plugin
 
 Help
 }
@@ -69,6 +98,7 @@ function checkType {
     fi
 }
 
+# if you update it, update the header comment too
 VERSION=0.1.0
 OUTPUT_DIR="changelogs/unreleased"
 
