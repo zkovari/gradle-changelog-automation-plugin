@@ -16,6 +16,7 @@ test script:
   stage: build
   script:
    - cd subprojects/changelog-automation-bin/src/main/resources/
+   - chmod +x ./changelog.sh
    - ./changelog.sh -t added "Title message"
    - ls -al
 
