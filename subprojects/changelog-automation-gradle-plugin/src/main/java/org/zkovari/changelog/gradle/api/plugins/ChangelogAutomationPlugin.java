@@ -1,25 +1,11 @@
 package org.zkovari.changelog.gradle.api.plugins;
 
-import java.io.File;
-
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.tasks.OutputDirectory;
 import org.zkovari.changelog.gradle.api.tasks.FetchChangelogScript;
 import org.zkovari.changelog.gradle.api.tasks.ProcessChangelogEntries;
 
 public class ChangelogAutomationPlugin implements Plugin<Project> {
-
-    private File outputDirectory;
-
-    @OutputDirectory
-    public File getOutputDirectory() {
-        return outputDirectory;
-    }
-
-    public void setOutputDirectory(File outputDirectory) {
-        this.outputDirectory = outputDirectory;
-    }
 
     @Override
     public void apply(Project project) {
