@@ -1,5 +1,6 @@
 plugins {
     id 'java-gradle-plugin'
+    id 'com.gradle.plugin-publish' version '0.10.1'
     id 'groovy'
 }
 
@@ -35,10 +36,17 @@ task createTestkitFiles {
 
 test.dependsOn createTestkitFiles
 
+pluginBundle {
+    website = 'https://github.com/zkovari/gradle-changelog-automation-plugin'
+    vcsUrl = 'https://github.com/zkovari/gradle-changelog-automation-plugin'
+    tags = ['changelog', 'automation']
+}
+
 gradlePlugin {
     plugins {
         changelog {
             id = 'org.zkovari.changelog'
+            displayName = 'Changelog automation plugin'
             implementationClass = 'org.zkovari.changelog.gradle.api.plugins.ChangelogAutomationPlugin'
         }
     }
