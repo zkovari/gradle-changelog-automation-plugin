@@ -47,6 +47,7 @@ gradlePlugin {
         changelog {
             id = 'org.zkovari.changelog'
             displayName = 'Changelog automation plugin'
+            description = 'Automatic continuous CHANGELOG.md generation from YAML entries'
             implementationClass = 'org.zkovari.changelog.gradle.api.plugins.ChangelogAutomationPlugin'
         }
     }

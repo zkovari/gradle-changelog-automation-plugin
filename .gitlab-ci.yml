@@ -9,10 +9,10 @@ before_script:
 stages:
  - build
  - test
- - devDeploy
  - systemTest
+ - deploy
 
-build:
+Build:
   stage: build
   script: ./gradlew --build-cache assemble -s
   artifacts:
@@ -25,30 +25,21 @@ build:
       - .gradle
       - subprojects/**/build
 
-build with latest Gradle:
+Build with latest Gradle:
   image: gradle:latest
   stage: build
   script: gradle assemble
   allow_failure: true
 
-test:
+Test:
   stage: test
   script:
     - ./gradlew check jacocoTestReport
     - bash <(curl -s https://codecov.io/bash)
+    - ./gradlew publish -s
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - .gradle
-      - subprojects/**/build
-
-deploy to GitLab:
-  stage: devDeploy
-  script: ./gradlew publish -s
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -131,3 +122,15 @@ Gradle 1.12 JDK 8:
   variables:
     GRADLE_VERSION: "1.12"
   allow_failure: true
+
+Deploy to plugin portal:
+  stage: deploy
+  script: ./gradlew publishPlugins -Pgradle.publish.key="$PLUGIN_PORTAL_KEY" -Pgradle.publish.secret="$PLUGIN_PORTAL_SECRET" -s
+  when: manual
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - .gradle
+      - subprojects/**/build
+ 
