@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.PosixFilePermission;
-import java.util.HashSet;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
@@ -36,16 +34,6 @@ public class FetchChangelogScript extends DefaultTask {
             Files.copy(in, outputChangelog, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             throw new GradleException("Could not copy changelog.sh file into: " + outputDirectory, ex);
-        }
-
-        HashSet<PosixFilePermission> permissions = new HashSet<>();
-        permissions.add(PosixFilePermission.OWNER_EXECUTE);
-        permissions.add(PosixFilePermission.GROUP_EXECUTE);
-        permissions.add(PosixFilePermission.OTHERS_EXECUTE);
-        try {
-            Files.setPosixFilePermissions(outputChangelog, permissions);
-        } catch (IOException e) {
-            getLogger().warn("Could not set executable permissions to file {}", outputChangelog);
         }
     }
 
