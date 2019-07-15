@@ -105,6 +105,7 @@ Gradle 3.5 JDK 8:
     GRADLE_VERSION: "3.0"
   script:
    - cd subprojects/changelog-automation-legacy-system-tests
+   - chmod +x gradlew
    - ./gradlew wrapper --gradle-version "$GRADLE_VERSION"
    - ./gradlew fetchChangelogScript -s
    - chmod +x scripts/changelog.sh
