@@ -56,114 +56,77 @@ deploy to GitLab:
       - .gradle
       - subprojects/**/build
 
-Gradle latest JDK 8:
+.system test template:
   stage: systemTest
-  image: gradle:latest
   script:
-   - gradle -p subprojects/changelog-automation-system-tests/ fetchChangelogScript -s
    - cd subprojects/changelog-automation-system-tests/
+   - gradle fetchChangelogScript -s
+   - chmod +x scripts/changelog.sh
    - ./scripts/changelog.sh --type added "Test entry"
-   - cd ../../
-   - gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
+   - gradle processChangelogEntries -s
+
+Gradle latest JDK 8:
+  extends: .system test template
+  image: gradle:latest
 
 Gradle latest JDK 8 in legacy mode:
-  stage: systemTest
+  extends: .system test template
   image: gradle:latest
   script:
-   - gradle -p subprojects/changelog-automation-legacy-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-legacy-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../
-   - gradle -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
+   - cd subprojects/changelog-automation-legacy-system-tests/
+   - gradle fetchChangelogScript -s
+   - chmod +x scripts/changelog.sh
+   - ./scripts/changelog.sh --type added "Test entry"
+   - gradle processChangelogEntries -s
 
 Gradle latest JDK 11:
-  stage: systemTest
+  extends: .system test template
   image: gradle:jdk11
-  script:
-   - gradle -p subprojects/changelog-automation-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../../
-   - gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
 Gradle 5.0 JDK 8:
-  stage: systemTest
+  extends: .system test template
   image: gradle:5.0.0-jdk8
-  script:
-   - gradle -p subprojects/changelog-automation-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../../
-   - gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
 Gradle 4.10.3 JDK 8:
-  stage: systemTest
+  extends: .system test template
   image: gradle:4.10.3-jdk8
-  script:
-   - gradle -p subprojects/changelog-automation-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../../
-   - gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
 Gradle 4.0 JDK 8:
-  stage: systemTest
+  extends: .system test template
   image: gradle:4.0-jdk8
-  script: 
-   - gradle -p subprojects/changelog-automation-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../../
-   - gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
 
 Gradle 3.5 JDK 8:
-  stage: systemTest
+  extends: .system test template
   image: gradle:3.5-jdk8
+
+.system test template with wrapper:
+  extends: .system test template
+  variables:
+    GRADLE_VERSION: "3.0"
   script:
-   - gradle -p subprojects/changelog-automation-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../../
-   - gradle -p subprojects/changelog-automation-system-tests/ processChangelogEntries -s
+   - cd subprojects/changelog-automation-legacy-system-tests
+   - ./gradlew wrapper --gradle-version "$GRADLE_VERSION"
+   - ./gradlew fetchChangelogScript -s
+   - chmod +x scripts/changelog.sh
+   - ./scripts/changelog.sh --type added "Test entry"
+   - ./gradlew processChangelogEntries -s
 
 Gradle 3.0 JDK 8:
-  stage: systemTest
-  script:
-   - ./gradlew wrapper --gradle-version 3.0
-   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../../
-   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
+  extends: .system test template with wrapper
 
 Gradle 2.14.1 JDK 8:
-  stage: systemTest
-  script:
-   - ./gradlew wrapper --gradle-version 2.14.1
-   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-legacy-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../../
-   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
+  extends: .system test template with wrapper
+  variables:
+    GRADLE_VERSION: "2.14.1"
 
 Gradle 2.0 JDK 8:
-  stage: systemTest
-  script:
-   - ./gradlew wrapper --gradle-version 2.0
-   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-legacy-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../../
-   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
+  extends: .system test template with wrapper
+  variables:
+    GRADLE_VERSION: "2.0"
   allow_failure: true
 
 Gradle 1.12 JDK 8:
-  stage: systemTest
-  script:
-   - ./gradlew wrapper --gradle-version 1.12
-   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ fetchChangelogScript -s
-   - cd subprojects/changelog-automation-legacy-system-tests/scripts/
-   - ./changelog.sh --type added "Test entry"
-   - cd ../../../
-   - ./gradlew -p subprojects/changelog-automation-legacy-system-tests/ processChangelogEntries -s
+  extends: .system test template with wrapper
+  variables:
+    GRADLE_VERSION: "1.12"
   allow_failure: true
