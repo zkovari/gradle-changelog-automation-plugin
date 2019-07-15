@@ -33,8 +33,8 @@ class ChangelogBashTest extends Specification {
 
     private run(String args = "") {
         def proc = "bash ${testDir.root}/changelog.sh $args".execute(null, testDir.root)
-        proc.consumeProcessOutput(standardOutput, standardError)
-        proc.waitForOrKill(1000)
+        proc.waitForProcessOutput(standardOutput, standardError)
+        proc.waitForOrKill(3000)
     }
 
     private String getGeneratedChangelogContent(String expectedFileName=null) {
