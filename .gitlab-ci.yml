@@ -9,7 +9,6 @@ before_script:
 stages:
  - build
  - test
- - devDeploy
  - systemTest
  - deploy
 
@@ -37,19 +36,10 @@ Test:
   script:
     - ./gradlew check jacocoTestReport
     - bash <(curl -s https://codecov.io/bash)
+    - ./gradlew publish -s
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - .gradle
-      - subprojects/**/build
-
-Publish to GitLab:
-  stage: devDeploy
-  script: ./gradlew publish -s
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
