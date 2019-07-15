@@ -84,7 +84,7 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
         then:
         assert result.task(":fetchChangelogScript").outcome == TaskOutcome.SUCCESS
         def changelogScript = new File(testProjectDir.root, "scripts/changelog.sh")
-        assert changelogScript.exists() && changelogScript.canExecute()
+        assert changelogScript.exists()
     }
 
     def "run fetchChangelogScript twice to update script"() {
@@ -96,6 +96,6 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
         assert result1.task(":fetchChangelogScript").outcome == TaskOutcome.SUCCESS
         assert result2.task(":fetchChangelogScript").outcome == TaskOutcome.SUCCESS
         def changelogScript = new File(testProjectDir.root, "scripts/changelog.sh")
-        assert changelogScript.exists() && changelogScript.canExecute()
+        assert changelogScript.exists()
     }
 }
