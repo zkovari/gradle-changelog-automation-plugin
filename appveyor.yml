@@ -1,0 +1,15 @@
+version: "{build}"
+
+build:
+  verbosity: detailed
+
+build_script:
+  - gradlew.bat clean assemble -s
+
+test_script:
+  - gradlew.bat check -x :changelog-automation-bin:test
+
+cache:
+  - .gradle
+  - subprojects/**/build
+  - C:\Users\appveyor\.gradle
