@@ -126,6 +126,8 @@ Gradle 1.12 JDK 8:
 .deploy template:
   stage: deploy
   when: manual
+  only:
+    - master
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
