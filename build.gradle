@@ -11,12 +11,11 @@ buildscript {
     dependencies {
         classpath 'com.adarshr:gradle-test-logger-plugin:1.7.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+'
+        classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.+'
     }
 }
 
-plugins {
-    id "org.zkovari.changelog" version "0.1.0"
-}
+apply plugin: "org.zkovari.changelog"
 
 if (project.hasProperty('SNAPSHOT')) {
     version = "$version-SNAPSHOT"
