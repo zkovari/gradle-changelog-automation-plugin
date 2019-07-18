@@ -36,7 +36,7 @@ Test:
   script:
     - ./gradlew check jacocoTestReport
     - bash <(curl -s https://codecov.io/bash)
-    - ./gradlew publish -s
+    - ./gradlew publish -PpublishToGitLab=true -s
   artifacts:
     reports:
       junit: subprojects/**/build/test-results/**/TEST-*.xml
@@ -123,14 +123,22 @@ Gradle 1.12 JDK 8:
     GRADLE_VERSION: "1.12"
   allow_failure: true
 
-Deploy to plugin portal:
+.deploy template:
   stage: deploy
-  script: ./gradlew publishPlugins -Pgradle.publish.key="$PLUGIN_PORTAL_KEY" -Pgradle.publish.secret="$PLUGIN_PORTAL_SECRET" -s
   when: manual
+  only:
+    - master
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
       - .gradle
       - subprojects/**/build
- 
+
+Deploy to plugin portal:
+  extends: .deploy template
+  script: ./gradlew publishPlugins -Pgradle.publish.key="$PLUGIN_PORTAL_KEY" -Pgradle.publish.secret="$PLUGIN_PORTAL_SECRET" -s
+
+Deploy to Bintray:
+  extends: .deploy template
+  script: ./gradlew bintrayUpload

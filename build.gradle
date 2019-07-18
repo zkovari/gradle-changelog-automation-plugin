@@ -3,11 +3,19 @@ buildscript {
         maven {
             url 'https://plugins.gradle.org/m2/'
         }
+        maven {
+            url 'https://dl.bintray.com/zkovari/maven'
+        }
     }
 
     dependencies {
         classpath 'com.adarshr:gradle-test-logger-plugin:1.7.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+'
     }
+}
+
+plugins {
+    id "org.zkovari.changelog" version "0.1.0"
 }
 
 if (project.hasProperty('SNAPSHOT')) {
@@ -30,6 +38,7 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'jacoco'
     apply plugin: 'com.adarshr.test-logger'
+    apply plugin: 'com.jfrog.bintray'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -68,26 +77,69 @@ subprojects {
     }
 
     publishing {
-        repositories {
-            maven {
-                credentials(HttpHeaderCredentials) {
-                    name "Job-Token"
-                    value System.getenv('CI_JOB_TOKEN')
-                }
-                authentication {
-                    header(HttpHeaderAuthentication)
-                }
-                url = "https://gitlab.com/api/v4/projects/13196104/packages/maven"
-            }
-        }
-
         publications {
             mavenJava(MavenPublication) {
                 from components.java
 
                 artifact sourcesJar
                 artifact javadocJar
+                
+                repositories {
+                    if (project.hasProperty('publishToGitLab')) {
+                        maven {
+                            credentials(HttpHeaderCredentials) {
+                                name "Job-Token"
+                                value System.getenv('CI_JOB_TOKEN')
+                            }
+                            authentication {
+                                header(HttpHeaderAuthentication)
+                            }
+                            url = "https://gitlab.com/api/v4/projects/13196104/packages/maven"
+                        }
+                    }
+                }
+                
+                pom {
+                    name = project.name
+                    description = project.description
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'zkovari'
+                            name = 'Zsolt Kovari'
+                            email = 'zsolt@kovaridev.com'
+                        }
+                    }
+                    
+                    scm {
+                        url = 'https://github.com/zkovari/gradle-changelog-automation-plugin'
+                    }
+                }
             }
         }
+    }
+    
+    bintray {
+        user = System.getenv('BINTRAY_USER')
+        key = System.getenv('BINTRAY_KEY')
+        pkg {
+            repo = 'maven'
+            name = project.name
+            userOrg = 'zkovari'
+            licenses = ['Apache-2.0']
+            vcsUrl = 'https://github.com/zkovari/gradle-changelog-automation-plugin'
+            version {
+                name = project.version
+                desc = project.description
+                released  = new Date()
+                vcsTag = "v${project.version}"
+            }
+        }
+        publications = ['mavenJava']
     }
 }
