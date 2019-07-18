@@ -3,6 +3,7 @@ package org.zkovari.changelog.core.parser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,13 +35,13 @@ public class YamlChangelogEntryParser {
     // testParseNonInvalidYamlFile test case
     private Map<String, Object> loadYaml(File inputYamlFile) throws ChangelogParserException {
         Yaml yaml = new Yaml();
-        InputStream ios;
-        try {
-            ios = new FileInputStream(inputYamlFile);
+        try (InputStream ios = new FileInputStream(inputYamlFile)) {
+            return yaml.load(ios);
         } catch (FileNotFoundException ex) {
             throw new ChangelogParserException("Input file does not exist: " + inputYamlFile.getName(), ex);
+        } catch (IOException ex) {
+            throw new ChangelogParserException("Could not close the input stream of file: " + inputYamlFile, ex);
         }
-        return yaml.load(ios);
     }
 
     private void setChangelogEntryField(ChangelogEntry changeLogEntryObj, Entry<String, Object> entry) {
