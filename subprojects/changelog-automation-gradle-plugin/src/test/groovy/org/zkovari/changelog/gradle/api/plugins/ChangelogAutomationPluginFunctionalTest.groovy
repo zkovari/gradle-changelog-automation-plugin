@@ -59,10 +59,10 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
     def "run processChangelogEntries with changelog entry "(){
         given:
         changelogEntry1 << """
-            title: "Title"
-            type: "added"
-            reference: ""
-            author: ""
+            title: Title
+            type: added
+            reference:
+            author:
         """
 
         when:
