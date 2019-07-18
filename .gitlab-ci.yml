@@ -141,4 +141,6 @@ Deploy to plugin portal:
 
 Deploy to Bintray:
   extends: .deploy template
-  script: ./gradlew bintrayUpload
+  script:
+    - ./gradlew generatePomFileForMavenJavaPublication sourcesJar javadocJar
+    - ./gradlew bintrayUpload
