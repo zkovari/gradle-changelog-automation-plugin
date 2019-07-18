@@ -15,7 +15,7 @@ buildscript {
 }
 
 plugins {
-    id "org.zkovari.changelog" version "0.+"
+    id "org.zkovari.changelog" version "0.1.0"
 }
 
 if (project.hasProperty('SNAPSHOT')) {
