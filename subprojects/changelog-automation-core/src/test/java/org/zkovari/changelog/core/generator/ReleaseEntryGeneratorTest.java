@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,7 +48,22 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
 
     @Test
     public void testGenerateWithoutEntry() {
+        String content = generator.generate(release);
+        assertEquals(releaseHeader, content);
+    }
 
+    @Test
+    public void testGenerateWithEmptyTypeEntries() {
+        release.setEntries(new HashMap<>());
+        release.getEntries().put(EntryType.ADDED, Collections.emptyList());
+        String content = generator.generate(release);
+        assertEquals(releaseHeader, content);
+    }
+
+    @Test
+    public void testGenerateWithNullTypeEntries() {
+        release.setEntries(new HashMap<>());
+        release.getEntries().put(EntryType.ADDED, null);
         String content = generator.generate(release);
         assertEquals(releaseHeader, content);
     }
@@ -73,6 +89,17 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
         String content = generator.generate(release);
         String expectedContent = format("{0}### {1}{2}- ref1 title1 (author){3}{4}", releaseHeader, type.getValue(), NL,
                 NL, NL);
+        assertEquals(expectedContent, content);
+    }
+
+    @Test
+    @UseDataProvider("entryTypes")
+    public void testGenerateSingleEntryWithEmptyReferenceAndAuthor(EntryType type) {
+        release.setEntries(new HashMap<>());
+        release.getEntries().put(type, Arrays.asList(newChangelogEntry("title1", type, "", "")));
+
+        String content = generator.generate(release);
+        String expectedContent = format("{0}### {1}{2}- title1{3}{4}", releaseHeader, type.getValue(), NL, NL, NL);
         assertEquals(expectedContent, content);
     }
 

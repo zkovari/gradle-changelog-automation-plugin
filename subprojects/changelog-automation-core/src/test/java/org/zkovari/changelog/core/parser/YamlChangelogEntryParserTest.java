@@ -145,7 +145,7 @@ public class YamlChangelogEntryParserTest extends ChangelogTestBase {
 
     @Test
     @UseDataProvider("entryTypeYamlValuesProvider")
-    public void testParseEntryTypeEnumIfLowerCase(String value) throws Exception {
+    public void testParseEntryTypeEnumIfValueIsLowerCase(String value) throws Exception {
         write("type: " + value.toLowerCase());
         parse();
         assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
@@ -153,7 +153,15 @@ public class YamlChangelogEntryParserTest extends ChangelogTestBase {
 
     @Test
     @UseDataProvider("entryTypeYamlValuesProvider")
-    public void testParseEntryTypeEnumIfUpperCase(String value) throws Exception {
+    public void testParseEntryTypeEnumIfKeyIsUpperCase(String value) throws Exception {
+        write("TYPE: " + value);
+        parse();
+        assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());
+    }
+
+    @Test
+    @UseDataProvider("entryTypeYamlValuesProvider")
+    public void testParseEntryTypeEnumIfValueIsUpperCase(String value) throws Exception {
         write("type: " + value.toUpperCase());
         parse();
         assertEquals(EntryType.valueOf(value.toUpperCase()), changelogEntry.getType());

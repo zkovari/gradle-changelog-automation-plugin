@@ -73,6 +73,14 @@ public class ProcessChangelogEntries extends DefaultTask {
 
     private String generate(Release release) {
         ChangelogGenerator generator = new ChangelogGenerator();
+        if (outputfile.exists()) {
+            try {
+                byte[] fileContentInBytes = Files.readAllBytes(outputfile.toPath());
+                return generator.generate(new String(fileContentInBytes), release);
+            } catch (IOException ex) {
+                throw new GradleException("Could not read file: " + outputfile, ex);
+            }
+        }
         return generator.generate("", release);
     }
 

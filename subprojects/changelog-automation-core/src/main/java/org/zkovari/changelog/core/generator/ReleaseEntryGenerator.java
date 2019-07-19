@@ -34,7 +34,6 @@ public class ReleaseEntryGenerator {
         for (EntryType type : sortedTypes.values()) {
             if (release.getEntries().containsKey(type)) {
                 appendEntriesPerType(releaseContent, type, release.getEntries().get(type));
-                releaseContent.append(NEW_LINE);
             }
         }
 
@@ -49,6 +48,7 @@ public class ReleaseEntryGenerator {
             releaseContent.append(MessageFormat.format("- {0}{1}{2}", stringifyReference(entry.getReference()),
                     entry.getTitle(), stringifyAuthor(entry.getAuthor()))).append(NEW_LINE);
         }
+        releaseContent.append(NEW_LINE);
     }
 
     private String stringifyReference(String value) {

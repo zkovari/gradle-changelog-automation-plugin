@@ -19,6 +19,7 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
     File buildFile
 
     File changelogEntry1
+    File changelogEntry2
 
     def setup() {
         File testKitGradlePropertiesResource = new File(
@@ -29,6 +30,7 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
         propertiesFile = testProjectDir.newFile('gradle.properties')
         buildFile = testProjectDir.newFile('build.gradle')
         changelogEntry1 = new File(changlogEntriesDir, "entry1.yml")
+        changelogEntry2 = new File(changlogEntriesDir, "entry2.yml")
 
         settingsFile << "rootProject.name = 'test-project'"
         propertiesFile << testKitGradleProperties
@@ -56,7 +58,7 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
         assert result.task(":processChangelogEntries").outcome == TaskOutcome.SUCCESS
     }
 
-    def "run processChangelogEntries with changelog entry "(){
+    def "run processChangelogEntries with changelog entry"(){
         given:
         changelogEntry1 << """
             title: Title
@@ -72,7 +74,102 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
         assert result.task(":processChangelogEntries").outcome == TaskOutcome.SUCCESS
         def changelog = new File(testProjectDir.root, "CHANGELOG.md")
         assert changelog.exists()
-        assert changelog.text.contains("Title") && changelog.text.contains("Added") && changelog.text.contains("1.0.0")
+        assert changelog.text.contains("### Added") && changelog.text.contains("- Title") && changelog.text.contains("1.0.0")
+        // TODO original entry should be removed
+        //assert !changelogEntry1.exists()
+    }
+
+    def "run processChangelogEntries with multiple changelog entry with same type"(){
+        given:
+        changelogEntry1 << """
+            title: Title 1
+            type: added
+            reference:
+            author:
+        """
+        changelogEntry2 << """
+            title: Title 2
+            type: added
+            reference:
+            author:
+        """
+
+        when:
+        BuildResult result = getRunner('processChangelogEntries')
+
+        then:
+        assert result.task(":processChangelogEntries").outcome == TaskOutcome.SUCCESS
+        def changelog = new File(testProjectDir.root, "CHANGELOG.md")
+        assert changelog.exists()
+        assert changelog.text.contains("1.0.0")
+        assert changelog.text.contains("### Added")
+        assert changelog.text.contains("- Title 1") && changelog.text.contains("- Title 2")
+        // TODO original entry should be removed
+        //assert !changelogEntry1.exists()
+    }
+
+    def "run processChangelogEntries with multiple changelog entry with different type"(){
+        given:
+        changelogEntry1 << """
+            title: Title 1
+            type: added
+            reference:
+            author:
+        """
+        changelogEntry2 << """
+            title: Title 2
+            type: changed
+            reference:
+            author:
+        """
+
+        when:
+        BuildResult result = getRunner('processChangelogEntries')
+
+        then:
+        assert result.task(":processChangelogEntries").outcome == TaskOutcome.SUCCESS
+        def changelog = new File(testProjectDir.root, "CHANGELOG.md")
+        assert changelog.exists()
+        assert changelog.text.contains("1.0.0")
+        assert changelog.text.contains("### Added")
+        assert changelog.text.contains("### Changed")
+        assert changelog.text.contains("- Title 1") && changelog.text.contains("- Title 2")
+        // TODO original entry should be removed
+        //assert !changelogEntry1.exists()
+    }
+
+    def "run processChangelogEntries twice with new changelog entries"(){
+        given:
+        changelogEntry1 << """
+            title: Title 1
+            type: added
+            reference:
+            author:
+        """
+
+        BuildResult result = getRunner('processChangelogEntries')
+        assert result.task(":processChangelogEntries").outcome == TaskOutcome.SUCCESS
+
+        changelogEntry2 << """
+        title: Title 2
+        type: changed
+        reference:
+        author:
+        """
+        changelogEntry1.delete()
+
+        when:
+        result = getRunner('processChangelogEntries')
+
+        then:
+        assert result.task(":processChangelogEntries").outcome == TaskOutcome.SUCCESS
+        def changelog = new File(testProjectDir.root, "CHANGELOG.md")
+        assert changelog.exists()
+        assert changelog.text.contains("1.0.0")
+        assert changelog.text.contains("### Added")
+        assert changelog.text.contains("### Changed")
+        assert changelog.text.contains("- Title 1")
+        assert changelog.text.contains("- Title 2")
         // TODO original entry should be removed
         //assert !changelogEntry1.exists()
     }
