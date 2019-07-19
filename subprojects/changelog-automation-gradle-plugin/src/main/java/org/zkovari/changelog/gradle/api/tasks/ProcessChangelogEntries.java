@@ -10,6 +10,7 @@ import org.gradle.api.GradleException;
 import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
+import org.zkovari.changelog.core.collector.ChangelogEntriesFileCollector;
 import org.zkovari.changelog.core.generator.ChangelogGenerator;
 import org.zkovari.changelog.core.parser.ChangelogEntriesParser;
 import org.zkovari.changelog.core.parser.ChangelogParserException;
@@ -47,6 +48,7 @@ public class ProcessChangelogEntries extends DefaultTask {
         Release release = processEntries(entries);
         String newChangelogContent = generate(release);
         write(newChangelogContent);
+        clean();
     }
 
     private List<ChangelogEntry> getEntries() {
@@ -92,4 +94,21 @@ public class ProcessChangelogEntries extends DefaultTask {
         }
     }
 
+    private void clean() {
+        ChangelogEntriesFileCollector collector = new ChangelogEntriesFileCollector();
+        List<File> files;
+        try {
+            files = collector.collect(inputDirectory);
+        } catch (IOException ex) {
+            throw new GradleException("Could not collect changelog entries to clean them up", ex);
+        }
+
+        for (File file : files) {
+            try {
+                Files.delete(file.toPath());
+            } catch (IOException ex) {
+                throw new GradleException("Could not delete file: " + file, ex);
+            }
+        }
+    }
 }

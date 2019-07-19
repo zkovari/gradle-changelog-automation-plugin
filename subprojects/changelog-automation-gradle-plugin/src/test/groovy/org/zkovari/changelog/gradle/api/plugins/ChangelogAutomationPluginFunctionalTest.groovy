@@ -75,8 +75,7 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
         def changelog = new File(testProjectDir.root, "CHANGELOG.md")
         assert changelog.exists()
         assert changelog.text.contains("### Added") && changelog.text.contains("- Title") && changelog.text.contains("1.0.0")
-        // TODO original entry should be removed
-        //assert !changelogEntry1.exists()
+        assert !changelogEntry1.exists()
     }
 
     def "run processChangelogEntries with multiple changelog entry with same type"(){
@@ -104,8 +103,8 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
         assert changelog.text.contains("1.0.0")
         assert changelog.text.contains("### Added")
         assert changelog.text.contains("- Title 1") && changelog.text.contains("- Title 2")
-        // TODO original entry should be removed
-        //assert !changelogEntry1.exists()
+        assert !changelogEntry1.exists()
+        assert !changelogEntry2.exists()
     }
 
     def "run processChangelogEntries with multiple changelog entry with different type"(){
@@ -134,8 +133,8 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
         assert changelog.text.contains("### Added")
         assert changelog.text.contains("### Changed")
         assert changelog.text.contains("- Title 1") && changelog.text.contains("- Title 2")
-        // TODO original entry should be removed
-        //assert !changelogEntry1.exists()
+        assert !changelogEntry1.exists()
+        assert !changelogEntry2.exists()
     }
 
     def "run processChangelogEntries twice with new changelog entries"(){
@@ -170,8 +169,8 @@ class ChangelogAutomationPluginFunctionalTest extends Specification {
         assert changelog.text.contains("### Changed")
         assert changelog.text.contains("- Title 1")
         assert changelog.text.contains("- Title 2")
-        // TODO original entry should be removed
-        //assert !changelogEntry1.exists()
+        assert !changelogEntry1.exists()
+        assert !changelogEntry2.exists()
     }
 
     def "run fetchChangelogScript"() {
