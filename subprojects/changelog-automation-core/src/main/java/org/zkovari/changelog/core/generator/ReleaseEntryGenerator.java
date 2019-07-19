@@ -33,6 +33,7 @@ public class ReleaseEntryGenerator {
 
         for (EntryType type : sortedTypes.values()) {
             if (release.getEntries().containsKey(type)) {
+                releaseContent.append(NEW_LINE);
                 appendEntriesPerType(releaseContent, type, release.getEntries().get(type));
             }
         }
@@ -48,7 +49,6 @@ public class ReleaseEntryGenerator {
             releaseContent.append(MessageFormat.format("- {0}{1}{2}", stringifyReference(entry.getReference()),
                     entry.getTitle(), stringifyAuthor(entry.getAuthor()))).append(NEW_LINE);
         }
-        releaseContent.append(NEW_LINE);
     }
 
     private String stringifyReference(String value) {
@@ -60,8 +60,7 @@ public class ReleaseEntryGenerator {
     }
 
     private void appendHeader(StringBuilder releaseContent, Release release) {
-        releaseContent
-                .append(MessageFormat.format("## [{0}] - {1}{2}", release.getVersion(), release.getDate(), NEW_LINE));
+        releaseContent.append(MessageFormat.format("## [{0}] - {1}", release.getVersion(), release.getDate()));
     }
 
 }

@@ -49,7 +49,7 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
     @Test
     public void testGenerateWithoutEntry() {
         String content = generator.generate(release);
-        assertEquals(releaseHeader, content);
+        assertEquals("## [1.0.0] - 2019-07-07", content);
     }
 
     @Test
@@ -75,8 +75,8 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
         release.getEntries().put(type, Arrays.asList(newChangelogEntry("title1", type)));
 
         String content = generator.generate(release);
-        String expectedContent = MessageFormat.format("{0}### {1}{2}- title1{3}{4}", releaseHeader, type.getValue(), NL,
-                NL, NL);
+        String expectedContent = MessageFormat.format("{0}### {1}{2}- title1{3}", releaseHeader, type.getValue(), NL,
+                NL);
         assertEquals(expectedContent, content);
     }
 
@@ -87,8 +87,8 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
         release.getEntries().put(type, Arrays.asList(newChangelogEntry("title1", type, "ref1", "author")));
 
         String content = generator.generate(release);
-        String expectedContent = format("{0}### {1}{2}- ref1 title1 (author){3}{4}", releaseHeader, type.getValue(), NL,
-                NL, NL);
+        String expectedContent = format("{0}### {1}{2}- ref1 title1 (author){3}", releaseHeader, type.getValue(), NL,
+                NL);
         assertEquals(expectedContent, content);
     }
 
@@ -99,7 +99,7 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
         release.getEntries().put(type, Arrays.asList(newChangelogEntry("title1", type, "", "")));
 
         String content = generator.generate(release);
-        String expectedContent = format("{0}### {1}{2}- title1{3}{4}", releaseHeader, type.getValue(), NL, NL, NL);
+        String expectedContent = format("{0}### {1}{2}- title1{3}", releaseHeader, type.getValue(), NL, NL);
         assertEquals(expectedContent, content);
     }
 
@@ -112,7 +112,7 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
 
         String content = generator.generate(release);
         String expectedContent = releaseHeader + format("### {0}{1}- title1{2}", type.getValue(), NL, NL)
-                + format("- title2{0}{1}", NL, NL);
+                + format("- title2{0}", NL);
         assertEquals(expectedContent, content);
     }
 
@@ -130,7 +130,7 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
                 + format("### Deprecated{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL)
                 + format("### Fixed{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL)
                 + format("### Removed{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL)
-                + format("### Security{0}- title1{1}- title2{2}{3}", NL, NL, NL, NL);
+                + format("### Security{0}- title1{1}- title2{2}", NL, NL, NL);
         assertEquals(expectedContent, content);
     }
 
