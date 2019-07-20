@@ -100,7 +100,10 @@ subprojects {
                 
                 pom {
                     name = project.name
-                    description = project.description
+                    project.afterEvaluate {
+                        description = project.description
+                    }
+                    url = 'https://github.com/zkovari/gradle-changelog-automation-plugin'
                     licenses {
                         license {
                             name = 'The Apache License, Version 2.0'

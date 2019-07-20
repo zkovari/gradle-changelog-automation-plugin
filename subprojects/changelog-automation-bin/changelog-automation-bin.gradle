@@ -2,6 +2,8 @@ plugins {
     id 'groovy'
 }
 
+project.description = 'Contains scripts for generating new changelog entries in YAML'
+
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile "org.spockframework:spock-core:1.3-groovy-2.5"
