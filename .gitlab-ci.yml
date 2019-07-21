@@ -17,7 +17,7 @@ Finish release:
   script:
     - git config --local user.name "zkovari"
     - git config --local user.email "zsolt@kovaridev.com"
-    - chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh 
+    #- chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh 
     - ./gradlew processChangelogEntries
     - ./gradlew bumpVersion
     - git add .
