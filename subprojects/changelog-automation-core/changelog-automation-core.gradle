@@ -1,3 +1,5 @@
+project.description = 'Core library for continuous CHANGELOG.md generation from YAML entries'
+
 dependencies {
     api 'org.yaml:snakeyaml:1.24'
     

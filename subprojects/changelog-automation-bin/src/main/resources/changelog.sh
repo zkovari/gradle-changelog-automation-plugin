@@ -17,8 +17,8 @@
 #     Zsolt Kovari (zsolt@kovaridev.com)
 #------------------------------------------------------------------------- 
 # Script: changelog.sh
-# Version: 0.1.1
-# Last updated: 2019-07-14
+# Version: 0.1.2
+# Last updated: 2019-07-21
 # URL: https://github.com/zkovari/gradle-changelog-automation-plugin
 #-------------------------------------------------------------------------
 # Usage: changelog.sh [OPTION]... --type [TYPE] [TITLE]
@@ -27,6 +27,9 @@
 
 # abort on error
 set -e
+
+# if you update it, update the header comment too
+VERSION=0.1.2
 
 function display_help {
     cat <<Help
@@ -98,10 +101,7 @@ function checkType {
     fi
 }
 
-# if you update it, update the header comment too
-VERSION=0.1.1
 OUTPUT_DIR="changelogs/unreleased"
-
 TITLE=""
 REFERENCE=""
 AUTHOR=""
@@ -176,9 +176,9 @@ if [[ ! -d $OUTPUT_DIR ]]; then
     mkdir -p $OUTPUT_DIR 
 fi
 
-# current branch name
 if hash git 2>/dev/null; then
-    if [ git rev-parse --abbrev-ref HEAD 2>&1 ]; then
+    # get current branch name
+    if git rev-parse --abbrev-ref HEAD >/dev/null 2>/dev/null; then
         FILENAME=$(git rev-parse --abbrev-ref HEAD 2>&1)
     else
         echo "WARN: Not a git repository: $(pwd)"
@@ -201,5 +201,5 @@ if [[ -f "$FILEPATH" ]]; then
     FILEPATH="$OUTPUT_DIR/$FILENAME"
 fi
 
-echo "$CHANGELOG_ENTRY" > $FILEPATH
+echo "$CHANGELOG_ENTRY" > "$FILEPATH"
 echo "New changelog was generated to: $FILEPATH"

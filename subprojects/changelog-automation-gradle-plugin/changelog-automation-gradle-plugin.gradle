@@ -4,6 +4,8 @@ plugins {
     id 'groovy'
 }
 
+project.description = 'Gradle plugin for continuous CHANGELOG.md generation from YAML entries'
+
 configurations {
     jacocoRuntime
 }
