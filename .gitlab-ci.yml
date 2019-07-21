@@ -23,7 +23,7 @@ Finish release:
     - git remote set-url origin https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git
     - git add .
     - git commit -m "Process changelog entries"
-    - git push
+    - git push origin feature/automate-release
     - git push origin --tags
   
 
