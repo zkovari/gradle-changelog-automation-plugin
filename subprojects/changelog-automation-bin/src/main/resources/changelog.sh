@@ -201,5 +201,5 @@ if [[ -f "$FILEPATH" ]]; then
     FILEPATH="$OUTPUT_DIR/$FILENAME"
 fi
 
-echo "$CHANGELOG_ENTRY" > $FILEPATH
+echo "$CHANGELOG_ENTRY" > "$FILEPATH"
 echo "New changelog was generated to: $FILEPATH"
