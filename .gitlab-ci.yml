@@ -20,11 +20,10 @@ Finish release:
     - chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh 
     - ./gradlew processChangelogEntries
     - ./gradlew bumpVersion
-    - git remote set-url origin https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git
     - git add .
     - git commit -m "Process changelog entries"
-    - git push origin feature/automate-release
-    - git push origin --tags
+    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
+    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
   
 
 .Build:
