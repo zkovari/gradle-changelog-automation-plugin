@@ -155,9 +155,11 @@ Deploy to Bintray:
     - ./gradlew generatePomFileForMavenJavaPublication sourcesJar javadocJar
     - ./gradlew bintrayUpload
 
-Finish release:
+Finish deployment:
   extends: .base job template
   stage: postDeploy
+  only:
+    - master
   script:
     - git config --local user.name "$GITHUB_USERNAME"
     - git config --local user.email "$GITHUB_EMAIL"
