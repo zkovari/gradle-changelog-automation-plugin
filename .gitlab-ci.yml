@@ -22,17 +22,18 @@ Finish release:
   script:
     - git config --local user.name "zkovari"
     - git config --local user.email "zsolt@kovaridev.com"
-    - git checkout feature/automate-release
-    - chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh 
-    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
+    - git checkout "$CI_COMMIT_REF_NAME"
+    - chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh
+    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
     - ./gradlew processChangelogEntries
     - git add .
     - git commit -m "[Automated] Process changelog entries [skip ci]"
     - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
-    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
     - ./gradlew bumpVersion
+    - export NEW_PROJECT_VERSION=$(grep version= "gradle.properties" | sed s/version=//)
     - git add .
-    - git commit -m "[Automated] Bump version"
+    - git commit -m "[Automated] Bump version to $NEW_PROJECT_VERSION"
+    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
   
 
 .Build:
