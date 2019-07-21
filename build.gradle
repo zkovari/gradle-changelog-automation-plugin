@@ -148,13 +148,13 @@ subprojects {
 
 task bumpVersion {
     doLast {
-		def versionArray = version.toString().split(/\./)
-		def last = Integer.parseInt(versionArray[versionArray.length - 1])
-		versionArray[versionArray.length - 1] = Integer.toString(last + 1)
-		def bumpedVersion = versionArray.join('.')
-		
-		ant.propertyfile(file: 'gradle.properties') {
-			entry(key: 'version', value: bumpedVersion)
-		}
+        def versionArray = version.toString().split(/\./)
+        def last = Integer.parseInt(versionArray[versionArray.length - 1])
+        versionArray[versionArray.length - 1] = Integer.toString(last + 1)
+        def bumpedVersion = versionArray.join('.')
+
+        ant.propertyfile(file: 'gradle.properties') {
+            entry(key: 'version', value: bumpedVersion)
+        }
     }
 }
