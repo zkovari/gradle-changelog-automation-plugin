@@ -22,8 +22,10 @@ Finish release:
     - ./gradlew bumpVersion
     - git add .
     - git commit -m "Process changelog entries"
-    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
-    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
+    - git status
+    - git branch
+    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git feature/automate-release
+    #- git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
   
 
 .Build:
