@@ -17,14 +17,16 @@ Finish release:
   script:
     - git config --local user.name "zkovari"
     - git config --local user.email "zsolt@kovaridev.com"
+    - git branch
+    - git checkout feature/automate-release
+    - git branch
     #- chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh 
     - ./gradlew processChangelogEntries
     - ./gradlew bumpVersion
     - git add .
     - git commit -m "Process changelog entries"
     - git status
-    - git branch
-    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git feature/automate-release
+    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
     #- git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
   
 
