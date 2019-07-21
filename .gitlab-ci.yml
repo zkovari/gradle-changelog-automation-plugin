@@ -15,6 +15,8 @@ stages:
 Finish release:
   stage: build
   script:
+    - git config --local user.name "zkovari"
+    - git config --local user.email "zsolt@kovaridev.com"
     - chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh 
     - ./gradlew processChangelogEntries
     - ./gradlew bumpVersion
