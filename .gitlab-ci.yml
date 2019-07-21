@@ -100,7 +100,6 @@ Gradle 3.5 JDK 8:
   image: gradle:3.5-jdk8
 
 .system test template with wrapper:
-  extends: .base job template
   extends: .system test template
   variables:
     GRADLE_VERSION: "3.0"
