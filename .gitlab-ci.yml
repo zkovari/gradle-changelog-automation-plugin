@@ -12,22 +12,27 @@ stages:
  - systemTest
  - deploy
 
+.base job template:
+  except:
+    - tags
+
 Finish release:
+  extends: .base job template
   stage: build
   script:
     - git config --local user.name "zkovari"
     - git config --local user.email "zsolt@kovaridev.com"
-    - git branch
     - git checkout feature/automate-release
-    - git branch
-    #- chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh 
+    - chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh 
+    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
     - ./gradlew processChangelogEntries
+    - git add .
+    - git commit -m "[Automated] Process changelog entries [skip ci]"
+    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
+    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
     - ./gradlew bumpVersion
     - git add .
-    - git commit -m "Process changelog entries"
-    - git status
-    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
-    #- git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
+    - git commit -m "[Automated] Bump version"
   
 
 .Build:
@@ -50,6 +55,7 @@ Finish release:
   allow_failure: true
 
 Test:
+  extends: .base job template
   stage: test
   script:
     - ./gradlew check jacocoTestReport
@@ -66,6 +72,7 @@ Test:
       - subprojects/**/build
 
 .system test template:
+  extends: .base job template
   stage: systemTest
   script:
    - cd subprojects/changelog-automation-system-tests/
@@ -109,6 +116,7 @@ Gradle 3.5 JDK 8:
   image: gradle:3.5-jdk8
 
 .system test template with wrapper:
+  extends: .base job template
   extends: .system test template
   variables:
     GRADLE_VERSION: "3.0"
