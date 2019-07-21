@@ -157,6 +157,7 @@ Deploy to Bintray:
 Finish deployment:
   extends: .base job template
   stage: postDeploy
+  when: manual
   only:
     - master
   script:
