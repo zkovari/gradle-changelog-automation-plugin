@@ -11,32 +11,14 @@ stages:
  - test
  - systemTest
  - deploy
+ - postDeploy
 
 .base job template:
   except:
     - tags
 
-Finish release:
+Build:
   extends: .base job template
-  stage: build
-  script:
-    - git config --local user.name "zkovari"
-    - git config --local user.email "zsolt@kovaridev.com"
-    - git checkout "$CI_COMMIT_REF_NAME"
-    - chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh
-    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
-    - ./gradlew processChangelogEntries
-    - git add .
-    - git commit -m "[Automated] Process changelog entries [skip ci]"
-    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
-    - ./gradlew bumpVersion
-    - export NEW_PROJECT_VERSION=$(grep version= "gradle.properties" | sed s/version=//)
-    - git add .
-    - git commit -m "[Automated] Bump version to $NEW_PROJECT_VERSION"
-    - git push https://zkovari:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
-  
-
-.Build:
   stage: build
   script: ./gradlew --build-cache assemble -s
   artifacts:
@@ -49,7 +31,8 @@ Finish release:
       - .gradle
       - subprojects/**/build
 
-.Build with latest Gradle:
+Build with latest Gradle:
+  extends: .base job template
   image: gradle:latest
   stage: build
   script: gradle assemble
@@ -171,3 +154,23 @@ Deploy to Bintray:
   script:
     - ./gradlew generatePomFileForMavenJavaPublication sourcesJar javadocJar
     - ./gradlew bintrayUpload
+
+Finish release:
+  extends: .base job template
+  stage: postDeploy
+  script:
+    - git config --local user.name "$GITHUB_USERNAME"
+    - git config --local user.email "$GITHUB_EMAIL"
+    - git checkout "$CI_COMMIT_REF_NAME"
+    - chmod +x ./scripts/create_tag.sh && ./scripts/create_tag.sh
+    - git push https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --tags
+    - ./gradlew processChangelogEntries
+    - git add .
+    - git commit -m "[Automated] Process changelog entries [skip ci]"
+    - git push https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
+    - ./gradlew bumpVersion
+    - export NEW_PROJECT_VERSION=$(grep version= "gradle.properties" | sed s/version=//)
+    - git add .
+    - git commit -m "[Automated] Bump version to $NEW_PROJECT_VERSION"
+    - git push https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
+
