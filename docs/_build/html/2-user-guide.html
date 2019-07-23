@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>User Guide &mdash; Gradle Changelog Automation Plugin 0.2.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.js"></script>
+        <script type="text/javascript" src="_static/sphinx_tabs/tabs.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/sphinx_tabs/tabs.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Supported Java and Gradle versions" href="3-requirements.html" />
+    <link rel="prev" title="Overview" href="1-overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Gradle Changelog Automation Plugin
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="1-overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-apply-the-plugin">How to apply the plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-generate-unreleased-changelog-entries-yaml-files">How to generate unreleased changelog entries (YAML files)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-process-unreleased-entries-into-changelog-md">How to process unreleased entries into CHANGELOG.md</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="3-requirements.html">Supported Java and Gradle versions</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Gradle Changelog Automation Plugin</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>User Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/2-user-guide.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="user-guide">
+<h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="how-to-apply-the-plugin">
+<h2>How to apply the plugin<a class="headerlink" href="#how-to-apply-the-plugin" title="Permalink to this headline">¶</a></h2>
+<p>Using the plugins DSL:</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-0-0 docutils container">
+<div class="docutils container">
+Groovy</div>
+</div>
+<div class="item sphinx-data-tab-0-1 docutils container">
+<div class="docutils container">
+Kotlin</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-0-0 active docutils container">
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span> <span class="o">{</span>
+    <span class="n">id</span> <span class="s1">&#39;org.zkovari.changelog&#39;</span> <span class="n">version</span> <span class="s1">&#39;0.2.2&#39;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-0-1 docutils container">
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span> <span class="p">{</span>
+    <span class="n">id</span><span class="p">(</span><span class="s">&quot;org.zkovari.changelog&quot;</span><span class="p">)</span> <span class="n">version</span> <span class="s">&quot;0.2.2&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using legacy plugin application:</p>
+<div class="sphinx-tabs docutils container">
+<div class="ui top attached tabular menu sphinx-menu docutils container">
+<div class="active item sphinx-data-tab-1-0 docutils container">
+<div class="docutils container">
+Groovy</div>
+</div>
+<div class="item sphinx-data-tab-1-1 docutils container">
+<div class="docutils container">
+Kotlin</div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-1-0 active docutils container">
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="n">buildscript</span> <span class="o">{</span>
+    <span class="n">repositories</span> <span class="o">{</span>
+        <span class="n">jcenter</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="n">dependencies</span> <span class="o">{</span>
+        <span class="n">classpath</span> <span class="s1">&#39;org.zkovari.changelog:changelog-automation-gradle-plugin:0.2.2&#39;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;org.zkovari.changelog&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-1-1 docutils container">
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="n">buildscript</span> <span class="p">{</span>
+    <span class="n">repositories</span> <span class="p">{</span>
+        <span class="n">jcenter</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="n">dependencies</span> <span class="p">{</span>
+        <span class="n">classpath</span><span class="p">(</span><span class="s">&quot;org.zkovari.changelog:changelog-automation-gradle-plugin:0.2.2&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">apply</span><span class="p">(</span><span class="n">plugin</span> <span class="p">=</span> <span class="s">&quot;org.zkovari.changelog&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="how-to-generate-unreleased-changelog-entries-yaml-files">
+<h2>How to generate unreleased changelog entries (YAML files)<a class="headerlink" href="#how-to-generate-unreleased-changelog-entries-yaml-files" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way if you generate new unreleased changelog entries with the plugin’s script. It is already on the classpath, you just have fetch it
+with the <code class="docutils literal notranslate"><span class="pre">fetchChangelogScript</span></code> task:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gradle fetchChangelogScript
+<span class="c1"># result: scripts/changelog.sh</span>
+
+<span class="c1"># also add permission to run it</span>
+chmod +x scripts/changelog.sh
+</pre></div>
+</div>
+<p>As a result, the script is present under <code class="docutils literal notranslate"><span class="pre">scripts/changelog.sh</span></code>. To generate a new entry, run <code class="docutils literal notranslate"><span class="pre">changelog.sh</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/changelog.sh --type added <span class="s2">&quot;My new feature&quot;</span>
+</pre></div>
+</div>
+<p>As a result, a new changelog entry is generated under <code class="docutils literal notranslate"><span class="pre">changelogs/unreleased</span></code>.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">changelog.sh</span> <span class="pre">--help</span></code> for more information.</p>
+</div>
+<div class="section" id="how-to-process-unreleased-entries-into-changelog-md">
+<h2>How to process unreleased entries into CHANGELOG.md<a class="headerlink" href="#how-to-process-unreleased-entries-into-changelog-md" title="Permalink to this headline">¶</a></h2>
+<p>If you already have unreleased YAML entries under <code class="docutils literal notranslate"><span class="pre">changelogs/unreleased</span></code>, you can process them and combine them into your <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>. To do so, run the
+<code class="docutils literal notranslate"><span class="pre">processChangelogEntries</span></code> task:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gradle processChangelogEntries
+</pre></div>
+</div>
+<p>As a result, the unreleased entries are combined into <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>. After this process, the directory <code class="docutils literal notranslate"><span class="pre">changelogs/unreleased</span></code> is automatically cleaned up.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="3-requirements.html" class="btn btn-neutral float-right" title="Supported Java and Gradle versions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="1-overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zsolt Kovari
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

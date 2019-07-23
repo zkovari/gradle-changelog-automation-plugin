@@ -24,9 +24,9 @@ copyright = '2019, Zsolt Kovari'
 author = 'Zsolt Kovari'
 
 # The short X.Y version
-version = '0.2.0'
+version = '0.2.2'
 # The full version, including alpha/beta/rc tags
-release = '0.2.0'
+release = '0.2.2'
 
 
 # -- General configuration ---------------------------------------------------
@@ -41,6 +41,8 @@ release = '0.2.0'
 extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
+    'recommonmark',
+    'sphinx_tabs.tabs',
 ]
 
 # Add any paths that contain templates here, relative to this directory.

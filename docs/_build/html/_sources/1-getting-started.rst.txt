@@ -1,0 +1,31 @@
+===============
+Getting Started
+===============
+
+Purpose of this plugin
+----------------------
+
+The *Gradle Changelog Automation Plugin* has one purpose: **to automate your CHANGELOG.md generation**.
+
+The plugin addresses the following problems:
+
+* frequent merge conflicts in your changelog file
+   * even with only 2 developers, merge conflicts are very likely to happen
+* manual updates
+   * any time you make a release, you have to be sure that you also manually update your changelog file
+* human errors
+   * due to the manual maintenance, it might happen that you simply forget to update your changelog or just simply make a mistake
+
+
+Followed conventions
+---------------------
+
+The plugin is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_. Any generated `CHANGELOG.md` file will follow this convention.
+
+Furthermore, the plugin expects that you follow `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
+   
+   
+   
+
+
+

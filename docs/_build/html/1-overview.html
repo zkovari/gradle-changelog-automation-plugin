@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; Gradle Changelog Automation Plugin 0.2.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="User Guide" href="2-user-guide.html" />
+    <link rel="prev" title="Welcome to Changelog Automation Gradle Plugin’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Gradle Changelog Automation Plugin
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#problem-to-solve">Problem to solve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#provided-solution">Provided solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#followed-conventions">Followed conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#original-source-of-idea">Original source of idea</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="2-user-guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-requirements.html">Supported Java and Gradle versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-contribution-guide.html">Contribution Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Gradle Changelog Automation Plugin</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/1-overview.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="problem-to-solve">
+<h2>Problem to solve<a class="headerlink" href="#problem-to-solve" title="Permalink to this headline">¶</a></h2>
+<p>The <em>Gradle Changelog Automation Plugin</em> has one purpose: <strong>to automate your CHANGELOG.md generation</strong>.</p>
+<p>The plugin addresses the following problems:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>frequent merge conflicts in your changelog file</dt>
+<dd><ul class="first last">
+<li>even with only 2 developers, merge conflicts are very likely to happen</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>time-consuming manual updates</dt>
+<dd><ul class="first last">
+<li>any time you make a release, you need to be sure you also manually update your changelog file</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>human errors</dt>
+<dd><ul class="first last">
+<li>due to the manual maintenance, you might make mistakes (e.g. missing entry, wrong version/date, etc.)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="provided-solution">
+<h2>Provided solution<a class="headerlink" href="#provided-solution" title="Permalink to this headline">¶</a></h2>
+<p>Generate your new unreleased changelog entries into separate <strong>YAML</strong> files. One YAML file represents one changelog entry.
+For example, for a new feature, you would create something like this:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">title</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">My new feature</span>
+<span class="nt">reference</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GH-1</span>
+<span class="nt">author</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">John Doe</span>
+<span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">added</span>
+</pre></div>
+</div>
+<p>Then, during release time, use this plugin to automatically process your unreleased entries and combine them into your <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code> file:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span>## [1.0.0] - 2019-07-21
+### Added
+- GH-1 My new feature (John Doe)
+</pre></div>
+</div>
+</div>
+<div class="section" id="followed-conventions">
+<h2>Followed conventions<a class="headerlink" href="#followed-conventions" title="Permalink to this headline">¶</a></h2>
+<p>The plugin generates a <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code> file in the root of the project. The content of the generated changelog is based on <a class="reference external" href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>.</p>
+<p>The unreleased changelog entries are expected to be under <code class="docutils literal notranslate"><span class="pre">changelogs/unreleased</span></code> directory in the root of the project.</p>
+<p>The generator script that generates YAML files is expected under <code class="docutils literal notranslate"><span class="pre">scripts/changelog.sh</span></code>.</p>
+</div>
+<div class="section" id="original-source-of-idea">
+<h2>Original source of idea<a class="headerlink" href="#original-source-of-idea" title="Permalink to this headline">¶</a></h2>
+<p>This plugin was inspired by <a class="reference external" href="https://gitlab.com/gitlab-org/gitlab-ce/">GitLab</a>:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://about.gitlab.com/2018/07/03/solving-gitlabs-changelog-conflict-crisis/">https://about.gitlab.com/2018/07/03/solving-gitlabs-changelog-conflict-crisis/</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="2-user-guide.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Changelog Automation Gradle Plugin’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zsolt Kovari
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
