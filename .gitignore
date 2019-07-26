@@ -1,7 +1,7 @@
 
 # sphinx doc
 _build
-code/docs/_themes/sphinx_rtd_theme
+docs/_themes/sphinx_rtd_theme
 
 # Created by https://www.gitignore.io/api/java,gradle,eclipse,intellij+iml
 # Edit at https://www.gitignore.io/?templates=java,gradle,eclipse,intellij+iml
