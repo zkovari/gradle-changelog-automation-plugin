@@ -54,7 +54,7 @@ Options for changelog content generation:
 Miscellaneous:
 
   -h| --help            display this help text and exit
-  -v| --version          display version information and exit
+  -v| --version         display version information and exit
   --dry-run             display the .yml changelog entry without 
                         generating the file
 

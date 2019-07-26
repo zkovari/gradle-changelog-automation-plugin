@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 #
+# Copyright 2019 Zsolt Kovari
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -57,7 +59,7 @@ Options for changelog content generation:
 Miscellaneous:
 
   -h| --help            display this help text and exit
-  -v| --version          display version information and exit
+  -v| --version         display version information and exit
   --dry-run             display the .yml changelog entry without 
                         generating the file
 
