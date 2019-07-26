@@ -7,7 +7,7 @@
 
 Inspired by [GitLab](https://gitlab.com/gitlab-org/gitlab-ce/): [https://about.gitlab.com/2018/07/03/solving-gitlabs-changelog-conflict-crisis/](https://about.gitlab.com/2018/07/03/solving-gitlabs-changelog-conflict-crisis/)
 
-# What does this plugin do?
+# What does this plugin do
 
 This plugin is able to generate `CHANGELOG.md` from YAML files.
 One YAML file represents one unreleased changelog entry.
@@ -70,6 +70,7 @@ To generate a new unreleased changelog entry (YAML), run `changelog.sh`:
 ```bash
 ./scripts/changelog.sh --type added "My new feature"
 ```
+
 As a result, a new changelog entry is generated under `changelogs/unreleased`,
 in this case the following one:
 
