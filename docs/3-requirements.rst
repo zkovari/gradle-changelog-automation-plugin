@@ -1,5 +1,5 @@
 ==================================
-Supported Java and Gradle versions
+Supported Java and Gradle Versions
 ==================================
 
 Java

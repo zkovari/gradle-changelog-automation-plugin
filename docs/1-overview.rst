@@ -3,7 +3,7 @@ Overview
 ========
 
 Problem to solve
------------------------------------
+----------------
 
 The *Gradle Changelog Automation Plugin* has one purpose: **to automate your CHANGELOG.md generation**.
 
@@ -12,7 +12,7 @@ The plugin addresses the following problems:
 * frequent merge conflicts in your changelog file
    * even with only 2 developers, merge conflicts are very likely to happen
 * time-consuming manual updates
-   * any time you make a release, you need to be sure you also manually update your changelog file
+   * any time you make a release, you also need to manually update your changelog
 * human errors
    * due to the manual maintenance, you might make mistakes (e.g. missing entry, wrong version/date, etc.)
 
@@ -39,7 +39,7 @@ Then, during release time, use this plugin to automatically process your unrelea
 
 
 Followed conventions
----------------------
+--------------------
 
 The plugin generates a ``CHANGELOG.md`` file in the root of the project. The content of the generated changelog is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_.
 
