@@ -61,7 +61,14 @@ To generate a new unreleased changelog entry (YAML), run `changelog.sh`:
 ```bash
 ./scripts/changelog.sh --type added "My new feature"
 ```
-As a result, a new changelog entry is generated under `changelogs/unreleased`.
+As a result, a new changelog entry is generated under `changelogs/unreleased`, in this case the following one:
+
+```yaml
+title: My new feature
+reference:
+author:
+type: added
+```
 
 See `changelog.sh --help` or the [detailed documentation](https://gradle-changelog-automation-plugin.readthedocs.io/en/latest/2-user-guide.html#how-to-generate-unreleased-changelog-entries-yaml-files) for further information.
 
