@@ -59,33 +59,47 @@ Test:
   extends: .base job template
   stage: systemTest
   script:
+   - export NEW_PROJECT_VERSION=$(grep version= "gradle.properties" | sed s/version=//)
    - cd subprojects/changelog-automation-system-tests/
-   - gradle fetchChangelogScript -s
+   - sed -i "s/VERSION_TOKEN/$NEW_PROJECT_VERSION/" build.gradle
+   - gradle buildEnv fetchChangelogScript -s
    - chmod +x scripts/changelog.sh
    - ./scripts/changelog.sh --type added "Test entry"
    - gradle processChangelogEntries -s
 
 Gradle latest JDK 8:
   extends: .system test template
-  image: gradle:latest
+  image: gradle:jdk8
 
 Gradle latest JDK 8 in legacy mode:
   extends: .system test template
-  image: gradle:latest
+  image: gradle:jdk8
   script:
    - cd subprojects/changelog-automation-legacy-system-tests/
-   - gradle fetchChangelogScript -s
+   - gradle buildEnv fetchChangelogScript -s
    - chmod +x scripts/changelog.sh
    - ./scripts/changelog.sh --type added "Test entry"
    - gradle processChangelogEntries -s
+
+Gradle latest JDK 12:
+  extends: .system test template
+  image: gradle:jdk12
 
 Gradle latest JDK 11:
   extends: .system test template
   image: gradle:jdk11
 
+Gradle 5.0 JDK 11:
+  extends: .system test template
+  image: gradle:5.0.0-jdk11
+
 Gradle 5.0 JDK 8:
   extends: .system test template
   image: gradle:5.0.0-jdk8
+
+Gradle 4.10.3 JDK 11:
+  extends: .system test template
+  image: gradle:4.10.3-jdk11
 
 Gradle 4.10.3 JDK 8:
   extends: .system test template
@@ -124,13 +138,11 @@ Gradle 2.0 JDK 8:
   extends: .system test template with wrapper
   variables:
     GRADLE_VERSION: "2.0"
-  allow_failure: true
 
 Gradle 1.12 JDK 8:
   extends: .system test template with wrapper
   variables:
     GRADLE_VERSION: "1.12"
-  allow_failure: true
 
 .deploy template:
   stage: deploy
