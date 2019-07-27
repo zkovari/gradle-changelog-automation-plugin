@@ -6,7 +6,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.1.0'
+        classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:+'
     }
 }
 
