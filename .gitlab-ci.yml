@@ -136,7 +136,7 @@ Gradle 1.12 JDK 8:
   stage: deploy
   when: manual
   only:
-    - master
+    - release/*
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -159,7 +159,7 @@ Finish deployment:
   stage: postDeploy
   when: manual
   only:
-    - master
+    - release/*
   script:
     - git config --local user.name "$GITHUB_USERNAME"
     - git config --local user.email "$GITHUB_EMAIL"
