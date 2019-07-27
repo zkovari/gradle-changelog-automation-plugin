@@ -169,10 +169,19 @@ Finish deployment:
     - ./gradlew processChangelogEntries
     - git add .
     - git commit -m "[Automated] Process changelog entries [skip ci]"
+    - git fetch origin master
+    - git checkout master
+    - git merge "$CI_COMMIT_REF_NAME"
     - git push https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
+    - git checkout "$CI_COMMIT_REF_NAME"
     - ./gradlew bumpVersion
     - export NEW_PROJECT_VERSION=$(grep version= "gradle.properties" | sed s/version=//)
     - git add .
     - git commit -m "[Automated] Bump version to $NEW_PROJECT_VERSION"
+    - git fetch origin develop
+    - git checkout develop
+    - git merge "$CI_COMMIT_REF_NAME"
     - git push https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --all
+    - git checkout "$CI_COMMIT_REF_NAME"
+    - git push https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/zkovari/gradle-changelog-automation-plugin.git --delete "$CI_COMMIT_REF_NAME"
 
