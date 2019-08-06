@@ -24,9 +24,9 @@ copyright = '2019, Zsolt Kovari'
 author = 'Zsolt Kovari'
 
 # The short X.Y version
-version = '0.2.2'
+version = '0.3.0'
 # The full version, including alpha/beta/rc tags
-release = '0.2.2'
+release = '0.3.0'
 
 
 # -- General configuration ---------------------------------------------------
