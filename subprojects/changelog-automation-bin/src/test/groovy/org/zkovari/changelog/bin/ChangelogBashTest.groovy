@@ -91,8 +91,8 @@ class ChangelogBashTest extends Specification {
         run()
 
         then:
-        assert standardOutput.toString().contains("Title must be specified")
-        assert standardOutput.toString() =~ "Usage"
+        assert standardOutput.toString().contains('Title must be specified')
+        assert standardOutput.toString().contains('See options and examples in --help')
         assert !unreleasedDir.exists()
     }
 
@@ -101,8 +101,8 @@ class ChangelogBashTest extends Specification {
         run("title")
 
         then:
-        assert standardOutput.toString().contains("Type must be specified")
-        assert standardOutput.toString() =~ "Usage"
+        assert standardOutput.toString().contains('Type must be specified')
+        assert standardOutput.toString().contains('See options and examples in --help')
         assert !unreleasedDir.exists()
     }
 
@@ -111,8 +111,8 @@ class ChangelogBashTest extends Specification {
         run("--type added --dry-run --reference 123")
 
         then:
-        assert standardOutput.toString().contains("Title must be specified")
-        assert standardOutput.toString() =~ "Usage"
+        assert standardOutput.toString().contains('Title must be specified')
+        assert standardOutput.toString().contains('See options and examples in --help')
         assert !unreleasedDir.exists()
     }
 

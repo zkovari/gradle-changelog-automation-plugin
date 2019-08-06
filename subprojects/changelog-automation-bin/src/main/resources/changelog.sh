@@ -19,8 +19,8 @@
 #     Zsolt Kovari (zsolt@kovaridev.com)
 #------------------------------------------------------------------------- 
 # Script: changelog.sh
-# Version: 0.1.2
-# Last updated: 2019-07-21
+# Version: 0.1.3
+# Last updated: 2019-08-06
 # URL: https://github.com/zkovari/gradle-changelog-automation-plugin
 #-------------------------------------------------------------------------
 # Usage: changelog.sh [OPTION]... --type [TYPE] [TITLE]
@@ -30,8 +30,8 @@
 # abort on error
 set -e
 
-# if you update it, update the header comment too
-VERSION=0.1.2
+# if you update it, update the header comment too as well as the date
+VERSION=0.1.3
 
 function display_help {
     cat <<Help
@@ -88,9 +88,7 @@ Help
 function checkEmptyArg {
     if [[ -z $1 ]]; then
         echo "$2 must be specified."
-        echo "See options and examples in --help:"
-        echo ""
-        display_help
+        echo "See options and examples in --help"
         exit 1
     fi
 }
@@ -98,7 +96,7 @@ function checkEmptyArg {
 function checkType {
     if [[ $1 != "added" && $1 != "changed" && $1 != "deprecated" && $1 != "fixed" && $1 != "removed" && $1 != "security" ]]; then
         echo "Invalid value was specified for --type: $1. Accepted values are: added, changed, deprecated, fixed, removed, security"
-        echo "See options and examples in --help:"
+        echo "See options and examples in --help"
         exit 1
     fi
 }
