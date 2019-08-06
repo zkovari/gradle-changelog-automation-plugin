@@ -23,6 +23,7 @@ if (project.hasProperty('SNAPSHOT')) {
 
 allprojects {
     apply plugin: 'eclipse'
+    apply plugin: 'idea'
 
     project.group = 'org.zkovari.changelog'
 }
