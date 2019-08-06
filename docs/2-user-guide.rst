@@ -15,7 +15,7 @@ How to apply the plugin
       .. code-block:: groovy
          
          plugins {
-             id 'org.zkovari.changelog' version '0.2.2'
+             id 'org.zkovari.changelog' version '0.3.0'
          }
          
          
@@ -28,7 +28,7 @@ How to apply the plugin
                  jcenter()
              }
              dependencies {
-                 classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.2.2'
+                 classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.3.0'
              }
          }
          
@@ -41,7 +41,7 @@ How to apply the plugin
       .. code-block:: kotlin
       
          plugins {
-             id("org.zkovari.changelog") version "0.2.2"
+             id("org.zkovari.changelog") version "0.3.0"
          }
          
       Using legacy `plugin application <https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application>`_:
@@ -53,7 +53,7 @@ How to apply the plugin
                  jcenter()
              }
              dependencies {
-                 classpath("org.zkovari.changelog:changelog-automation-gradle-plugin:0.2.2")
+                 classpath("org.zkovari.changelog:changelog-automation-gradle-plugin:0.3.0")
              }
          }
          
@@ -85,6 +85,7 @@ As a result, the script is present under ``scripts/changelog.sh``. To generate a
 As a result, a new changelog entry is generated under ``changelogs/unreleased``.
 
 For type (``-t|--type``) the following values are accepted: ``added``, ``changed``, ``deprecated``, ``fixed``, ``removed``, ``security``.
+Shortened values can be also specified, for example, ``a`` corresponds to ``added``, ``secu`` to ``security``, etc.
 
 See ``changelog.sh --help`` for more information.
 
