@@ -54,54 +54,54 @@ public class ChangelogGeneratorTest extends ChangelogTestBase {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-	currentWithoutEntries = readResourceAsString("CHANGELOG.md_without_entries");
-	expectedWithoutEntriesBefore = readResourceAsString("CHANGELOG.md_without_entries_expected");
+        currentWithoutEntries = readResourceAsString("CHANGELOG.md_without_entries");
+        expectedWithoutEntriesBefore = readResourceAsString("CHANGELOG.md_without_entries_expected");
 
-	currentWithEntries = readResourceAsString("CHANGELOG.md_with_entries");
-	expectedWithEntriesBefore = readResourceAsString("CHANGELOG.md_with_entries_expected");
+        currentWithEntries = readResourceAsString("CHANGELOG.md_with_entries");
+        expectedWithEntriesBefore = readResourceAsString("CHANGELOG.md_with_entries_expected");
     }
 
     private static String readResourceAsString(String resourceName) throws IOException, URISyntaxException {
-	String resourcePath = "org/zkovari/changelog/core/generator/" + resourceName;
-	URL resource = ChangelogGeneratorTest.class.getClassLoader().getResource(resourcePath);
-	if (resource == null) {
-	    throw new IOException("Could not find resource file " + resourcePath);
-	}
-	return new String(Files.readAllBytes(new File(resource.toURI()).toPath()));
+        String resourcePath = "org/zkovari/changelog/core/generator/" + resourceName;
+        URL resource = ChangelogGeneratorTest.class.getClassLoader().getResource(resourcePath);
+        if (resource == null) {
+            throw new IOException("Could not find resource file " + resourcePath);
+        }
+        return new String(Files.readAllBytes(new File(resource.toURI()).toPath()));
     }
 
     @Before
     public void setUp() throws Exception {
-	generator = new ChangelogGenerator();
-	generator.setReleaseEntryGenerator(releaseEntryGenerator);
+        generator = new ChangelogGenerator();
+        generator.setReleaseEntryGenerator(releaseEntryGenerator);
 
-	release = new Release();
-	when(releaseEntryGenerator.generate(release))
-		.thenReturn("## [1.0.0] - 2019-07-07" + NL + "### Added" + NL + "- Message" + NL + NL);
+        release = new Release();
+        when(releaseEntryGenerator.generate(release))
+                .thenReturn("## [1.0.0] - 2019-07-07" + NL + "### Added" + NL + "- Message" + NL + NL);
     }
 
     @Test
     public void testNullSafeGetters() {
-	ChangelogGenerator newGenerator = new ChangelogGenerator();
-	assertNotNull("Expected ReleaseEntryGenerator not be null", newGenerator.getReleaseEntryGenerator());
+        ChangelogGenerator newGenerator = new ChangelogGenerator();
+        assertNotNull("Expected ReleaseEntryGenerator not be null", newGenerator.getReleaseEntryGenerator());
     }
 
     @Test
     public void testGenerateWhenCurrentIsEmpty() {
-	String content = generator.generate("", release);
-	assertEquals(expectedWithoutEntriesBefore, content);
+        String content = generator.generate("", release);
+        assertEquals(expectedWithoutEntriesBefore, content);
     }
 
     @Test
     public void testGenerateWhenEntriesAreMissing() {
-	String content = generator.generate(currentWithoutEntries, release);
-	assertEquals(expectedWithoutEntriesBefore, content);
+        String content = generator.generate(currentWithoutEntries, release);
+        assertEquals(expectedWithoutEntriesBefore, content);
     }
 
     @Test
     public void testGenerateWithPreviousEntriesPresent() {
-	String content = generator.generate(currentWithEntries, release);
-	assertEquals(expectedWithEntriesBefore, content);
+        String content = generator.generate(currentWithEntries, release);
+        assertEquals(expectedWithEntriesBefore, content);
     }
 
 }

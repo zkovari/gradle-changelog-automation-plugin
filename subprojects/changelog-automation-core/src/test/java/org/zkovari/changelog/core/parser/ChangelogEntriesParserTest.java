@@ -61,43 +61,43 @@ public class ChangelogEntriesParserTest extends ChangelogTestBase {
 
     @Before
     public void setUp() {
-	parser = new ChangelogEntriesParser();
-	parser.setFileCollector(collector);
-	parser.setParser(yamlParser);
+        parser = new ChangelogEntriesParser();
+        parser.setFileCollector(collector);
+        parser.setParser(yamlParser);
     }
 
     @Test
     public void testNullSafeGetters() {
-	ChangelogEntriesParser newParser = new ChangelogEntriesParser();
-	assertNotNull("Expected file collector not to be empty", newParser.getFileCollector());
-	assertNotNull("Expected parser not to be empty", newParser.getParser());
+        ChangelogEntriesParser newParser = new ChangelogEntriesParser();
+        assertNotNull("Expected file collector not to be empty", newParser.getFileCollector());
+        assertNotNull("Expected parser not to be empty", newParser.getParser());
     }
 
     @Test
     public void testParseWithNoFiles() throws Exception {
-	when(collector.collect(rootDir)).thenReturn(Collections.emptyList());
-	List<ChangelogEntry> entries = parser.parse(rootDir);
+        when(collector.collect(rootDir)).thenReturn(Collections.emptyList());
+        List<ChangelogEntry> entries = parser.parse(rootDir);
 
-	assertTrue("Expected empty but got " + entries, entries.isEmpty());
+        assertTrue("Expected empty but got " + entries, entries.isEmpty());
     }
 
     @Test
     public void testParseEntriesSuccessfully() throws Exception {
-	when(collector.collect(rootDir)).thenReturn(Arrays.asList(entryFile1, entryFile2));
-	when(yamlParser.parse(entryFile1)).thenReturn(entry1);
-	when(yamlParser.parse(entryFile2)).thenReturn(entry2);
+        when(collector.collect(rootDir)).thenReturn(Arrays.asList(entryFile1, entryFile2));
+        when(yamlParser.parse(entryFile1)).thenReturn(entry1);
+        when(yamlParser.parse(entryFile2)).thenReturn(entry2);
 
-	List<ChangelogEntry> entries = parser.parse(rootDir);
-	assertThat(entries, IsCollectionContaining.hasItems(entry1, entry2));
+        List<ChangelogEntry> entries = parser.parse(rootDir);
+        assertThat(entries, IsCollectionContaining.hasItems(entry1, entry2));
     }
 
     @Test
     public void testParseWhenCollectorThrowsIOException() throws Exception {
-	when(collector.collect(rootDir)).thenThrow(new IOException("test exception"));
+        when(collector.collect(rootDir)).thenThrow(new IOException("test exception"));
 
-	thrown.expect(ChangelogParserException.class);
-	thrown.expectMessage("test exception");
-	parser.parse(rootDir);
+        thrown.expect(ChangelogParserException.class);
+        thrown.expectMessage("test exception");
+        parser.parse(rootDir);
     }
 
 }
