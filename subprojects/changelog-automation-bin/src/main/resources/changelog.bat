@@ -81,7 +81,7 @@ for %%0 in (%*) do (
 	if !CONTINUE! EQU 0 (
 		set TITLE=%%~x
 	)
-	SET /A CONTINUE=0
+	set /A CONTINUE=0
 )
 
 set /A HAS_MISSING_PARAMS=0
@@ -134,9 +134,9 @@ if exist %FILEPATH% (
 		set CUR_NN=%TIME:~3,2%
 		set CUR_SS=%TIME:~6,2%		
 	)
-	SET TIMESTRING=!CUR_YYY!!CUR_MM!!CUR_DD!-!CUR_HH!!CUR_NN!!CUR_SS!
-	SET FILENAME=!TIMESTRING!_%FILENAME%
-	SET FILEPATH=%OUTPUT_DIR%\!FILENAME!
+	set TIMESTRING=!CUR_YYY!!CUR_MM!!CUR_DD!-!CUR_HH!!CUR_NN!!CUR_SS!
+	set FILENAME=!TIMESTRING!_%FILENAME%
+	set FILEPATH=%OUTPUT_DIR%\!FILENAME!
 )
 
 echo --- > %FILEPATH%
@@ -203,6 +203,7 @@ if "%~1!"=="" (
 exit /B 0
 
 :CheckType
+set /A IS_VALID=0
 if ["%~1"]==["added"] (
 	set /A IS_TYPE_VALID=1
 )
