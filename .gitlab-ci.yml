@@ -134,16 +134,6 @@ Gradle 2.14.1 JDK 8:
   variables:
     GRADLE_VERSION: "2.14.1"
 
-Gradle 2.0 JDK 8:
-  extends: .system test template with wrapper
-  variables:
-    GRADLE_VERSION: "2.0"
-
-Gradle 1.12 JDK 8:
-  extends: .system test template with wrapper
-  variables:
-    GRADLE_VERSION: "1.12"
-
 .deploy template:
   stage: deploy
   when: manual
