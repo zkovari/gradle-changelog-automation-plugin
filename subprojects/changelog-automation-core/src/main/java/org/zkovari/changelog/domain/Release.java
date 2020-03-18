@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 Zsolt Kovari
+ * Copyright 2019-2020 Zsolt Kovari
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -25,27 +25,27 @@ public class Release {
     private Map<EntryType, List<ChangelogEntry>> entries;
 
     public String getVersion() {
-	return version;
+        return version;
     }
 
     public void setVersion(String version) {
-	this.version = version;
+        this.version = version;
     }
 
     public String getDate() {
-	return date;
+        return date;
     }
 
     public void setDate(String date) {
-	this.date = date;
+        this.date = date;
     }
 
     public Map<EntryType, List<ChangelogEntry>> getEntries() {
-	return entries;
+        return entries;
     }
 
     public void setEntries(Map<EntryType, List<ChangelogEntry>> entries) {
-	this.entries = entries;
+        this.entries = entries;
     }
 
 }

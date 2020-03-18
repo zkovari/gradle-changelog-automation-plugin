@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 Zsolt Kovari
+ * Copyright 2019-2020 Zsolt Kovari
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -23,35 +23,35 @@ public class ChangelogEntry {
     private String reference;
 
     public String getTitle() {
-	return title;
+        return title;
     }
 
     public void setTitle(String title) {
-	this.title = title;
+        this.title = title;
     }
 
     public EntryType getType() {
-	return type;
+        return type;
     }
 
     public void setType(EntryType type) {
-	this.type = type;
+        this.type = type;
     }
 
     public String getAuthor() {
-	return author;
+        return author;
     }
 
     public void setAuthor(String author) {
-	this.author = author;
+        this.author = author;
     }
 
     public String getReference() {
-	return reference;
+        return reference;
     }
 
     public void setReference(String reference) {
-	this.reference = reference;
+        this.reference = reference;
     }
 
 }

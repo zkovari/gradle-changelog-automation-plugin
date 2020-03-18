@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 Zsolt Kovari
+ * Copyright 2019-2020 Zsolt Kovari
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -29,42 +29,42 @@ public class ChangelogEntriesParser {
     private YamlChangelogEntryParser parser;
 
     ChangelogEntriesFileCollector getFileCollector() {
-	if (fileCollector == null) {
-	    fileCollector = new ChangelogEntriesFileCollector();
-	}
-	return fileCollector;
+        if (fileCollector == null) {
+            fileCollector = new ChangelogEntriesFileCollector();
+        }
+        return fileCollector;
     }
 
     YamlChangelogEntryParser getParser() {
-	if (parser == null) {
-	    parser = new YamlChangelogEntryParser();
-	}
-	return parser;
+        if (parser == null) {
+            parser = new YamlChangelogEntryParser();
+        }
+        return parser;
     }
 
     public List<ChangelogEntry> parse(File inputDirectory) throws ChangelogParserException {
-	List<File> files;
-	try {
-	    files = getFileCollector().collect(inputDirectory);
-	} catch (IOException ex) {
-	    throw new ChangelogParserException(ex.getMessage(), ex);
-	}
-	LinkedList<ChangelogEntry> changelogEntries = new LinkedList<>();
-	for (File file : files) {
-	    changelogEntries.add(getParser().parse(file));
-	}
+        List<File> files;
+        try {
+            files = getFileCollector().collect(inputDirectory);
+        } catch (IOException ex) {
+            throw new ChangelogParserException(ex.getMessage(), ex);
+        }
+        LinkedList<ChangelogEntry> changelogEntries = new LinkedList<>();
+        for (File file : files) {
+            changelogEntries.add(getParser().parse(file));
+        }
 
-	return changelogEntries;
+        return changelogEntries;
     }
 
     // package level for testing
     void setFileCollector(ChangelogEntriesFileCollector fileCollector) {
-	this.fileCollector = fileCollector;
+        this.fileCollector = fileCollector;
     }
 
     // package level for testing
     void setParser(YamlChangelogEntryParser parser) {
-	this.parser = parser;
+        this.parser = parser;
     }
 
 }

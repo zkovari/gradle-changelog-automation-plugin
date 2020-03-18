@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 Zsolt Kovari
+ * Copyright 2019-2020 Zsolt Kovari
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -31,40 +31,40 @@ import org.zkovari.changelog.domain.Release;
 public class ChangelogEntriesProcessor {
 
     public Release processChangelogs(Collection<ChangelogEntry> changelogEntries, String version)
-	    throws InvalidChangelogEntryException {
-	validate(changelogEntries, version);
+            throws InvalidChangelogEntryException {
+        validate(changelogEntries, version);
 
-	Release release = new Release();
-	release.setVersion(version);
-	release.setDate(getCurrentDate());
+        Release release = new Release();
+        release.setVersion(version);
+        release.setDate(getCurrentDate());
 
-	Map<EntryType, List<ChangelogEntry>> entriesGroupedByType = changelogEntries.stream()
-		.collect(Collectors.groupingBy(ChangelogEntry::getType));
-	release.setEntries(entriesGroupedByType);
+        Map<EntryType, List<ChangelogEntry>> entriesGroupedByType = changelogEntries.stream()
+                .collect(Collectors.groupingBy(ChangelogEntry::getType));
+        release.setEntries(entriesGroupedByType);
 
-	return release;
+        return release;
     }
 
     private void validate(Collection<ChangelogEntry> changelogEntries, String version)
-	    throws InvalidChangelogEntryException {
-	Objects.requireNonNull(changelogEntries);
-	Objects.requireNonNull(version);
-	if (version.trim().isEmpty()) {
-	    throw new IllegalArgumentException("Version cannot be empty");
-	}
+            throws InvalidChangelogEntryException {
+        Objects.requireNonNull(changelogEntries);
+        Objects.requireNonNull(version);
+        if (version.trim().isEmpty()) {
+            throw new IllegalArgumentException("Version cannot be empty");
+        }
 
-	Optional<ChangelogEntry> entryWithNullType = changelogEntries.stream().filter(entry -> entry.getType() == null)
-		.findFirst();
-	if (entryWithNullType.isPresent()) {
-	    throw new InvalidChangelogEntryException(
-		    "Type cannot be null in changelog entry: " + entryWithNullType.get());
-	}
+        Optional<ChangelogEntry> entryWithNullType = changelogEntries.stream().filter(entry -> entry.getType() == null)
+                .findFirst();
+        if (entryWithNullType.isPresent()) {
+            throw new InvalidChangelogEntryException(
+                    "Type cannot be null in changelog entry: " + entryWithNullType.get());
+        }
     }
 
     private static String getCurrentDate() {
-	LocalDate today = LocalDate.now();
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	return today.format(formatter);
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return today.format(formatter);
     }
 
 }

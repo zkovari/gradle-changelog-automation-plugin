@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 Zsolt Kovari
+ * Copyright 2019-2020 Zsolt Kovari
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -20,11 +20,11 @@ public class ChangelogParserException extends Exception {
     private static final long serialVersionUID = 1272215186606393828L;
 
     public ChangelogParserException(String message, Throwable cause) {
-	super(message, cause);
+        super(message, cause);
     }
 
     public ChangelogParserException(String message) {
-	super(message);
+        super(message);
     }
 
 }

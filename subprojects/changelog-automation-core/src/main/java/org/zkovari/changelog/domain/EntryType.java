@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 Zsolt Kovari
+ * Copyright 2019-2020 Zsolt Kovari
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -17,23 +17,21 @@ package org.zkovari.changelog.domain;
 
 public enum EntryType {
 
-    // @formatter:off
-    ADDED("Added"), 
-    CHANGED("Changed"), 
-    DEPRECATED("Deprecated"), 
-    REMOVED("Removed"), 
-    FIXED("Fixed"),
+    ADDED("Added"), //
+    CHANGED("Changed"), //
+    DEPRECATED("Deprecated"), //
+    REMOVED("Removed"), //
+    FIXED("Fixed"), //
     SECURITY("Security");
-    // @formatter:on
 
     private final String value;
 
     private EntryType(String value) {
-	this.value = value;
+        this.value = value;
     }
 
     public String getValue() {
-	return value;
+        return value;
     }
 
 }

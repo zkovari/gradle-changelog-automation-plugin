@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 Zsolt Kovari
+ * Copyright 2019-2020 Zsolt Kovari
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -29,33 +29,33 @@ import java.util.Objects;
 public class ChangelogEntriesFileCollector {
 
     public List<File> collect(File rootDirectory) throws IOException {
-	Objects.requireNonNull(rootDirectory, "rootDirectory cannot be null");
-	if (!rootDirectory.exists()) {
-	    throw new IOException("Given root directory does not exist: " + rootDirectory);
-	}
-	LinkedList<File> collectedFiles = new LinkedList<>();
+        Objects.requireNonNull(rootDirectory, "rootDirectory cannot be null");
+        if (!rootDirectory.exists()) {
+            throw new IOException("Given root directory does not exist: " + rootDirectory);
+        }
+        LinkedList<File> collectedFiles = new LinkedList<>();
 
-	Files.walkFileTree(rootDirectory.toPath(), new SimpleFileVisitor<Path>() {
+        Files.walkFileTree(rootDirectory.toPath(), new SimpleFileVisitor<Path>() {
 
-	    @Override
-	    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-		if (dir != rootDirectory.toPath()) {
-		    return FileVisitResult.SKIP_SUBTREE;
-		}
-		return super.preVisitDirectory(dir, attrs);
-	    }
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                if (dir != rootDirectory.toPath()) {
+                    return FileVisitResult.SKIP_SUBTREE;
+                }
+                return super.preVisitDirectory(dir, attrs);
+            }
 
-	    @Override
-	    public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-		if (path.toString().endsWith(".yml") || path.toString().endsWith(".yaml")) {
-		    collectedFiles.add(path.toFile());
-		}
-		return super.visitFile(path, attrs);
-	    }
+            @Override
+            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+                if (path.toString().endsWith(".yml") || path.toString().endsWith(".yaml")) {
+                    collectedFiles.add(path.toFile());
+                }
+                return super.visitFile(path, attrs);
+            }
 
-	});
+        });
 
-	return collectedFiles;
+        return collectedFiles;
     }
 
 }
