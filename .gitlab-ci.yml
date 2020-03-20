@@ -10,7 +10,8 @@ stages:
  - build
  - test
  - systemTest
- - deploy
+ - deployToBintray
+ - deployToPluginPortal
  - postDeploy
 
 .base job template:
@@ -135,8 +136,8 @@ Gradle 2.14.1 JDK 8:
     GRADLE_VERSION: "2.14.1"
 
 .deploy template:
-  stage: deploy
   when: manual
+  needs: [Test]
   only:
     - /^release/.*$/
   cache:
@@ -146,15 +147,18 @@ Gradle 2.14.1 JDK 8:
       - .gradle
       - subprojects/**/build
 
-Deploy to plugin portal:
-  extends: .deploy template
-  script: ./gradlew publishPlugins -Pgradle.publish.key="$PLUGIN_PORTAL_KEY" -Pgradle.publish.secret="$PLUGIN_PORTAL_SECRET" -s
-
 Deploy to Bintray:
   extends: .deploy template
+  stage: deployToBintray
   script:
     - ./gradlew generatePomFileForMavenJavaPublication sourcesJar javadocJar
     - ./gradlew bintrayUpload
+
+Deploy to plugin portal:
+  extends: .deploy template
+  stage: deployToPluginPortal
+  needs: [Deploy to Bintray]
+  script: ./gradlew publishPlugins -Pgradle.publish.key="$PLUGIN_PORTAL_KEY" -Pgradle.publish.secret="$PLUGIN_PORTAL_SECRET" -s
 
 Finish deployment:
   extends: .base job template
