@@ -35,7 +35,7 @@ Using the [plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#s
 
 ```gradle
 plugins {
-    id 'org.zkovari.changelog' version '0.3.0'
+    id 'org.zkovari.changelog' version '0.4.0'
 }
 ```
 
@@ -47,7 +47,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.3.0'
+        classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.4.0'
     }
 }
 

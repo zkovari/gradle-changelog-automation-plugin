@@ -15,7 +15,7 @@ How to apply the plugin
       .. code-block:: groovy
          
          plugins {
-             id 'org.zkovari.changelog' version '0.3.0'
+             id 'org.zkovari.changelog' version '0.4.0'
          }
          
          
@@ -28,7 +28,7 @@ How to apply the plugin
                  jcenter()
              }
              dependencies {
-                 classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.3.0'
+                 classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.4.0'
              }
          }
          
@@ -41,7 +41,7 @@ How to apply the plugin
       .. code-block:: kotlin
       
          plugins {
-             id("org.zkovari.changelog") version "0.3.0"
+             id("org.zkovari.changelog") version "0.4.0"
          }
          
       Using legacy `plugin application <https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application>`_:
@@ -53,7 +53,7 @@ How to apply the plugin
                  jcenter()
              }
              dependencies {
-                 classpath("org.zkovari.changelog:changelog-automation-gradle-plugin:0.3.0")
+                 classpath("org.zkovari.changelog:changelog-automation-gradle-plugin:0.4.0")
              }
          }
          
