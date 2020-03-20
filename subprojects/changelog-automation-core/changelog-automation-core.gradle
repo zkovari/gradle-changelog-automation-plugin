@@ -3,7 +3,7 @@ project.description = 'Core library for continuous CHANGELOG.md generation from 
 dependencies {
     api 'org.yaml:snakeyaml:1.24'
     
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.28.2'
-    testCompile 'com.tngtech.junit.dataprovider:junit4-dataprovider:2.6'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.28.2'
+    testImplementation 'com.tngtech.junit.dataprovider:junit4-dataprovider:2.6'
 }
