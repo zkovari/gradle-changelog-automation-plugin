@@ -1,60 +1,38 @@
 image: java:8-jdk
 
+include:
+  - project: 'zkovari/gitlab-ci-templates'
+    file: 'java/gradle/base.yml'
+
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
-before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
-
-stages:
- - build
- - test
- - systemTest
- - deployToBintray
- - deployToPluginPortal
- - postDeploy
-
-.base job template:
-  except:
-    - tags
-
-Build:
-  extends: .base job template
-  stage: build
-  script: ./gradlew --build-cache assemble -s
-  artifacts:
-    paths:
-      - subprojects/**/build/libs/*.jar
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: push
-    paths:
-      - .gradle
-      - subprojects/**/build
-
-Build with latest Gradle:
-  extends: .base job template
+.latest gradle job template:
   image: gradle:latest
-  stage: build
-  script: gradle assemble
   allow_failure: true
 
+Build:
+  extends: .multi project build template
+
+Build with latest Gradle:
+  extends:
+    - .build template
+    - .latest gradle job template
+  script: gradle assemble -s
+
 Test:
-  extends: .base job template
-  stage: test
+  extends: .multi project test template
+
+Test with latest Gradle:
+  extends:
+   - .test template
+   - .latest gradle job template
+  needs: [Build with latest Gradle]
   script:
-    - ./gradlew check jacocoTestReport
-    - bash <(curl -s https://codecov.io/bash)
-    - ./gradlew publish -PpublishToGitLab=true -s
+    - gradle check
   artifacts:
     reports:
-      junit: subprojects/**/build/test-results/**/TEST-*.xml
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - .gradle
-      - subprojects/**/build
+      junit: build/test-results/**/TEST-*.xml
 
 .system test template:
   extends: .base job template
@@ -148,17 +126,10 @@ Gradle 2.14.1 JDK 8:
       - subprojects/**/build
 
 Deploy to Bintray:
-  extends: .deploy template
-  stage: deployToBintray
-  script:
-    - ./gradlew generatePomFileForMavenJavaPublication sourcesJar javadocJar
-    - ./gradlew bintrayUpload
+  extends: .deploy to Bintray template
 
 Deploy to plugin portal:
-  extends: .deploy template
-  stage: deployToPluginPortal
-  needs: [Deploy to Bintray]
-  script: ./gradlew publishPlugins -Pgradle.publish.key="$PLUGIN_PORTAL_KEY" -Pgradle.publish.secret="$PLUGIN_PORTAL_SECRET" -s
+  extends: .deploy to plugin portal template
 
 Finish deployment:
   extends: .base job template
