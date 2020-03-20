@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Gradle Changelog Automation Plugin'
-copyright = '2019, Zsolt Kovari'
+copyright = '2019-2020, Zsolt Kovari'
 author = 'Zsolt Kovari'
 
 # The short X.Y version
