@@ -16,7 +16,9 @@
 package org.zkovari.changelog.core.generator;
 
 import static java.text.MessageFormat.format;
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.zkovari.changelog.domain.EntryType.ADDED;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -104,6 +106,17 @@ public class ReleaseEntryGeneratorTest extends ChangelogTestBase {
         String content = generator.generate(release);
         String expectedContent = format("{0}### {1}{2}- ref1 title1 (author){3}{4}", releaseHeader, type.getValue(), NL,
                 NL, NL);
+        assertEquals(expectedContent, content);
+    }
+
+    @Test
+    public void testGenerateSingleEntryWithHashTagInReference() {
+        release.setEntries(new HashMap<>());
+        release.getEntries().put(ADDED, asList(newChangelogEntry("title1", ADDED, "__HASHTAG__ref1", "author")));
+
+        String content = generator.generate(release);
+        String expectedContent = format("{0}### {1}{2}- #ref1 title1 (author){3}{4}", releaseHeader, "Added", NL, NL,
+                NL);
         assertEquals(expectedContent, content);
     }
 
