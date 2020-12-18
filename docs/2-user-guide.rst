@@ -72,11 +72,12 @@ with the ``fetchChangelogScript`` task:
    
    gradle fetchChangelogScript
    # result: scripts/changelog.sh
+   # result: scripts/changelog.bat
    
    # also add permission
    chmod +x scripts/changelog.sh
 
-As a result, the script is present under ``scripts/changelog.sh``. To generate a new entry, run ``changelog.sh``:
+As a result, the script is present under ``scripts/changelog.sh``. If you're using Windows replace ``changelog.sh`` by ``changelog.bat`` on the examples below.. To generate a new entry, run ``changelog.sh``:
 
 .. code-block:: bash
 
