@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.adarshr:gradle-test-logger-plugin:2.1.0'
+        classpath 'com.adarshr:gradle-test-logger-plugin:3.0.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+'
         classpath 'org.zkovari.changelog:changelog-automation-gradle-plugin:0.+'
     }
